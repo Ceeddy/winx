@@ -4,739 +4,948 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Winx — AI Automation for Businesses</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet"/>
 <style>
-:root {
-  --bg: #f5f4f1;
-  --bg2: #eeedea;
-  --white: #ffffff;
-  --black: #0a0a0a;
-  --dark: #1c1c1c;
-  --muted: #7a7a72;
-  --light: #b0afa8;
-  --border: rgba(0,0,0,0.09);
-  --border2: rgba(0,0,0,0.14);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+:root{
+  --blue:#2563EB;
+  --blue-light:#EFF6FF;
+  --blue-mid:#DBEAFE;
+  --blue-dark:#1E40AF;
+  --blue-deep:#1D3B8A;
+  --cream:#FDFBF7;
+  --cream2:#F5F0E8;
+  --ink:#0F172A;
+  --muted:#64748B;
+  --light:#94A3B8;
+  --border:rgba(37,99,235,0.1);
+  --border2:rgba(37,99,235,0.18);
+  --white:#ffffff;
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--black);
-  font-family: 'Barlow', sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
+body{background:var(--cream);color:var(--ink);font-family:'Barlow',sans-serif;font-size:17px;line-height:1.6;overflow-x:hidden;}
 
 /* ── NAV ── */
-nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 1rem 4rem;
-  background: rgba(245,244,241,0.92);
-  backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 4rem;
+  background:rgba(253,251,247,0.95);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:all 0.3s;
 }
-.logo {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.8rem; letter-spacing: 2px;
-  color: var(--black); text-decoration: none;
-  display: flex; align-items: center; gap: 0.6rem;
+nav.scrolled{padding:0.75rem 4rem;box-shadow:0 2px 24px rgba(37,99,235,0.08);}
+.logo{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;letter-spacing:3px;color:var(--blue);text-decoration:none;display:flex;align-items:center;gap:0.5rem;}
+.logo-spark{width:10px;height:10px;background:var(--blue);border-radius:50%;animation:sparkPulse 2s ease-in-out infinite;}
+@keyframes sparkPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.4);opacity:0.6}}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center;}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.88rem;font-weight:500;transition:color 0.2s;}
+.nav-links a:hover{color:var(--blue);}
+.nav-cta{
+  background:var(--blue)!important;color:white!important;
+  padding:0.6rem 1.5rem;border-radius:8px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700!important;font-size:0.88rem!important;
+  letter-spacing:1px;text-transform:uppercase;
+  transition:all 0.2s!important;
+  box-shadow:0 4px 14px rgba(37,99,235,0.25)!important;
 }
-.logo-mark {
-  width: 34px; height: 34px; background: var(--black);
-  border-radius: 8px; display: flex; align-items: center; justify-content: center;
-}
-.logo-mark svg { width: 18px; height: 18px; fill: white; }
-.nav-links { display: flex; gap: 2rem; list-style: none; align-items: center; }
-.nav-links a {
-  text-decoration: none; color: var(--muted);
-  font-size: 0.88rem; font-weight: 500;
-  letter-spacing: 0.3px; transition: color 0.2s;
-}
-.nav-links a:hover { color: var(--black); }
-.nav-btn {
-  background: var(--black) !important; color: white !important;
-  padding: 0.55rem 1.4rem; border-radius: 7px;
-  font-weight: 600 !important; font-size: 0.85rem !important;
-  letter-spacing: 0.3px; transition: background 0.2s !important;
-}
-.nav-btn:hover { background: #2a2a2a !important; color: white !important; }
-.hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; }
-.hamburger span { width: 22px; height: 2px; background: var(--black); border-radius: 2px; transition: all 0.3s; }
-.mob-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; background: var(--white); border-bottom: 1px solid var(--border); padding: 1.5rem 2rem; flex-direction: column; gap: 1.2rem; z-index: 199; }
-.mob-menu.open { display: flex; }
-.mob-menu a { text-decoration: none; color: var(--dark); font-size: 1rem; font-weight: 600; padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
-.mob-menu a:last-child { border-bottom: none; }
+.nav-cta:hover{background:var(--blue-dark)!important;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.35)!important;}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{width:22px;height:2px;background:var(--ink);border-radius:2px;transition:all 0.3s;}
+.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;background:white;border-bottom:1px solid var(--border);padding:1.5rem 2rem;flex-direction:column;gap:1.2rem;z-index:199;box-shadow:0 8px 30px rgba(37,99,235,0.08);}
+.mob-menu.open{display:flex;}
+.mob-menu a{text-decoration:none;color:var(--ink);font-size:1rem;font-weight:600;padding:0.4rem 0;border-bottom:1px solid var(--border);}
 
 /* ── HERO ── */
-.hero {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  justify-content: center; align-items: center;
-  text-align: center; padding: 9rem 2rem 5rem;
-  position: relative; overflow: hidden;
+.hero{
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  padding-top:72px;position:relative;overflow:hidden;
 }
-.orb-wrap {
-  position: absolute; top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 700px; height: 700px; pointer-events: none; z-index: 0;
+.hero-left{
+  background:var(--blue);
+  display:flex;flex-direction:column;
+  justify-content:center;
+  padding:5rem 4rem;
+  position:relative;overflow:hidden;
 }
-.orb {
-  position: absolute; inset: 0; border-radius: 50%;
-  background: radial-gradient(circle at 38% 35%,
-    rgba(255,255,255,1) 0%,
-    rgba(228,226,221,0.75) 35%,
-    rgba(198,195,189,0.3) 65%,
-    transparent 100%);
-  animation: orbFloat 7s ease-in-out infinite;
+/* Blue orb glow behind hero text */
+.hero-left::before{
+  content:'';position:absolute;
+  bottom:-20%;left:-20%;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.08) 0%,transparent 65%);
+  pointer-events:none;
 }
-.orb-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(0,0,0,0.06); animation: ringPulse 8s ease-in-out infinite; }
-.r1{inset:4%} .r2{inset:11%;border-color:rgba(0,0,0,0.045);animation-delay:.6s}
-.r3{inset:19%;border-color:rgba(0,0,0,0.035);animation-delay:1.2s}
-.r4{inset:28%;border-color:rgba(0,0,0,0.025);animation-delay:1.8s}
-.r5{inset:38%;border-color:rgba(0,0,0,0.018);animation-delay:2.4s}
-.ripple-lines { position:absolute;inset:-10%;border-radius:50%; background:conic-gradient(from 0deg,transparent 0deg,rgba(0,0,0,0.01) 8deg,transparent 16deg,rgba(0,0,0,0.007) 24deg,transparent 32deg); animation:spinSlow 40s linear infinite; }
-@keyframes orbFloat { 0%,100%{transform:scale(1) translateY(0)} 50%{transform:scale(1.02) translateY(-8px)} }
-@keyframes ringPulse { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.04);opacity:0.6} }
-@keyframes spinSlow { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+.hero-left::after{
+  content:'';position:absolute;
+  top:-10%;right:-10%;
+  width:400px;height:400px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.05) 0%,transparent 60%);
+  pointer-events:none;
+}
+.hero-eyebrow{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.72rem;font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  color:rgba(255,255,255,0.45);margin-bottom:1.5rem;
+}
+.hero-h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(4.5rem,8vw,8.5rem);
+  letter-spacing:3px;line-height:0.92;
+  color:white;margin-bottom:1.8rem;
+}
+.hero-h1 .soft{color:rgba(255,255,255,0.25);}
+.hero-desc{
+  color:rgba(255,255,255,0.6);
+  font-size:1rem;line-height:1.85;
+  max-width:380px;font-weight:300;
+  margin-bottom:2.5rem;
+}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;}
+.btn-white{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:white;color:var(--blue);
+  padding:0.9rem 1.8rem;border-radius:8px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.95rem;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;text-decoration:none;
+  transition:all 0.25s;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
+}
+.btn-white:hover{background:#f0f8ff;transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,0.2);}
+.btn-outline-white{
+  display:inline-flex;align-items:center;gap:0.6rem;
+  background:transparent;color:rgba(255,255,255,0.75);
+  padding:0.9rem 1.8rem;border-radius:8px;
+  border:1.5px solid rgba(255,255,255,0.2);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.95rem;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;text-decoration:none;
+  transition:all 0.25s;
+}
+.btn-outline-white:hover{border-color:rgba(255,255,255,0.5);color:white;background:rgba(255,255,255,0.07);}
+.hero-stats{
+  display:flex;gap:2.5rem;
+  margin-top:3rem;padding-top:2.5rem;
+  border-top:1px solid rgba(255,255,255,0.1);
+}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:2.4rem;letter-spacing:2px;color:white;line-height:1;}
+.stat-l{font-size:0.73rem;color:rgba(255,255,255,0.35);margin-top:0.3rem;font-weight:500;letter-spacing:0.5px;}
 
-.hero-socials {
-  display: flex; gap: 0.6rem; margin-bottom: 2.5rem;
-  position: relative; z-index: 2;
-  animation: fadeUp 0.5s ease both;
+/* Hero Right */
+.hero-right{
+  background:var(--blue-light);
+  display:flex;align-items:center;justify-content:center;
+  padding:3rem;position:relative;overflow:hidden;
 }
-.soc {
-  width: 40px; height: 40px;
-  background: rgba(255,255,255,0.85);
-  border: 1px solid var(--border);
-  border-radius: 9px; display: flex;
-  align-items: center; justify-content: center;
-  font-size: 0.82rem; font-weight: 700;
-  text-decoration: none; color: var(--dark);
-  transition: all 0.2s; backdrop-filter: blur(8px);
+.hero-right::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle at 80% 20%, rgba(37,99,235,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 20% 80%, rgba(37,99,235,0.04) 0%, transparent 50%);
 }
-.soc:hover { background: white; transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.1); }
+/* Grid pattern */
+.hero-right::after{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(37,99,235,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37,99,235,0.05) 1px, transparent 1px);
+  background-size:40px 40px;
+}
+.chat-card{
+  width:100%;max-width:420px;
+  background:white;border-radius:20px;
+  box-shadow:0 30px 70px rgba(37,99,235,0.12),0 0 0 1px rgba(37,99,235,0.06);
+  overflow:hidden;position:relative;z-index:1;
+}
+.cc-header{
+  background:var(--blue);padding:1.3rem 1.6rem;
+  display:flex;align-items:center;gap:0.9rem;
+}
+.cc-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  border:2px solid rgba(255,255,255,0.25);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.cc-avatar svg{width:22px;height:22px;fill:white;}
+.cc-name{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:white;}
+.cc-status{display:flex;align-items:center;gap:0.4rem;margin-top:0.2rem;}
+.cc-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:ccPulse 2s infinite;}
+@keyframes ccPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.4)}50%{box-shadow:0 0 0 4px rgba(74,222,128,0)}}
+.cc-st{font-size:0.7rem;color:rgba(255,255,255,0.5);}
+.cc-msgs{padding:1.4rem;display:flex;flex-direction:column;gap:0.8rem;min-height:210px;}
+.cc-msg{display:flex;gap:0.5rem;align-items:flex-end;}
+.cc-msg.u{flex-direction:row-reverse;}
+.cc-av{width:26px;height:26px;border-radius:50%;background:var(--blue);display:flex;align-items:center;justify-content:center;font-size:0.65rem;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;flex-shrink:0;}
+.cc-msg.u .cc-av{background:var(--blue-mid);color:var(--blue-dark);}
+.cc-bub{max-width:78%;padding:0.65rem 0.9rem;border-radius:12px;font-size:0.82rem;line-height:1.55;}
+.cc-msg.b .cc-bub{background:var(--blue-light);color:var(--ink);border-radius:3px 12px 12px 12px;}
+.cc-msg.u .cc-bub{background:var(--blue);color:white;border-radius:12px 3px 12px 12px;}
+.cc-input-row{
+  margin:0 1.4rem 1.4rem;background:var(--blue-light);
+  border-radius:10px;display:flex;align-items:center;
+  gap:0.6rem;padding:0.7rem 1rem;
+}
+.cc-input-row span{flex:1;font-size:0.8rem;color:var(--light);}
+.cc-send{width:28px;height:28px;background:var(--blue);border-radius:7px;display:flex;align-items:center;justify-content:center;}
+.cc-send svg{width:14px;height:14px;fill:white;}
 
-.hero-brand {
-  position: relative; z-index: 2;
-  display: flex; align-items: center; gap: 1.5rem;
-  margin-bottom: 1.2rem;
-  animation: fadeUp 0.5s 0.1s ease both;
+/* Floating badges */
+.hero-badge{
+  position:absolute;background:white;border-radius:12px;
+  padding:0.75rem 1.1rem;
+  box-shadow:0 8px 30px rgba(37,99,235,0.12);
+  display:flex;align-items:center;gap:0.6rem;
+  font-size:0.78rem;font-weight:600;color:var(--ink);
+  z-index:2;
 }
-.brand-sphere {
-  width: 84px; height: 84px; border-radius: 50%;
-  background: radial-gradient(circle at 33% 33%, #fff 0%, #c0bebb 55%, #787672 100%);
-  border: 2px solid rgba(0,0,0,0.1);
-  box-shadow: inset 0 2px 10px rgba(255,255,255,0.9), 0 8px 28px rgba(0,0,0,0.2);
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.sphere-core {
-  width: 46px; height: 46px; border-radius: 50%;
-  background: var(--black); display: flex;
-  align-items: center; justify-content: center;
-}
-.sphere-core svg { width: 24px; height: 24px; fill: white; }
+.hb1{top:12%;right:4%;animation:floatBadge 4s ease-in-out infinite;}
+.hb2{bottom:15%;left:2%;animation:floatBadge 4s 1.5s ease-in-out infinite;}
+@keyframes floatBadge{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.bi{font-size:1.1rem;}
 
-.hero h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(5rem, 13vw, 11rem);
-  letter-spacing: 4px; line-height: 0.95;
-  color: var(--black); position: relative; z-index: 2;
+/* ── TICKER ── */
+.ticker-wrap{
+  background:var(--blue-deep);padding:0.85rem 0;
+  overflow:hidden;
 }
-.hero h1 .ghost { color: rgba(0,0,0,0.12); }
+.ticker-inner{display:flex;width:max-content;animation:tick 28s linear infinite;}
+.ti{
+  display:flex;align-items:center;gap:1rem;padding:0 2.5rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.82rem;font-weight:700;
+  color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:2.5px;white-space:nowrap;
+}
+.ts{color:rgba(255,255,255,0.12);font-size:1.1rem;}
+@keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 
-.hero-tagline {
-  position: relative; z-index: 2;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: clamp(1rem, 2.5vw, 1.4rem);
-  font-weight: 600; letter-spacing: 3px;
-  text-transform: uppercase; color: var(--muted);
-  margin-top: 0.8rem;
-  animation: fadeUp 0.5s 0.15s ease both;
+/* ── SECTION BASE ── */
+section{padding:7rem 4rem;}
+.lbl{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.72rem;font-weight:700;
+  letter-spacing:4px;text-transform:uppercase;
+  color:var(--blue);margin-bottom:0.8rem;
 }
+.dtitle{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.8rem,5vw,4.5rem);
+  letter-spacing:2px;line-height:0.95;color:var(--ink);
+}
+.dsub{color:var(--muted);font-size:1rem;line-height:1.8;font-weight:300;margin-top:1rem;}
 
-.hero-sub {
-  position: relative; z-index: 2;
-  margin-top: 1.2rem; font-size: 1.05rem;
-  color: var(--muted); max-width: 460px;
-  font-weight: 400; line-height: 1.75;
-  animation: fadeUp 0.5s 0.2s ease both;
+/* ── SERVICES ── */
+#services{background:var(--white);padding:0;}
+.sv-grid{display:grid;grid-template-columns:1fr 1fr;}
+.sv-intro{
+  background:var(--blue-light);
+  padding:7rem 4rem;
+  display:flex;flex-direction:column;justify-content:center;
+  position:sticky;top:72px;height:calc(100vh - 72px);
 }
+.sv-intro .dtitle{font-size:clamp(2.5rem,4vw,4rem);}
+.sv-intro .dsub{max-width:320px;}
+.sv-list{}
+.sv-item{
+  padding:2.2rem 4rem;border-bottom:1px solid var(--border);
+  display:flex;align-items:flex-start;gap:1.4rem;
+  background:white;transition:all 0.3s;cursor:default;
+}
+.sv-item:first-child{border-top:1px solid var(--border);}
+.sv-item:hover{background:var(--blue);transform:translateX(4px);}
+.sv-item:hover .sv-title{color:white;}
+.sv-item:hover .sv-desc{color:rgba(255,255,255,0.5);}
+.sv-item:hover .sv-ico{background:rgba(255,255,255,0.12);}
+.sv-ico{
+  width:50px;height:50px;border-radius:12px;
+  background:var(--blue-light);display:flex;
+  align-items:center;justify-content:center;
+  font-size:1.3rem;flex-shrink:0;transition:all 0.3s;
+}
+.sv-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1.15rem;font-weight:700;
+  letter-spacing:0.5px;text-transform:uppercase;
+  margin-bottom:0.5rem;transition:color 0.3s;color:var(--ink);
+}
+.sv-desc{font-size:0.92rem;color:var(--muted);line-height:1.75;transition:color 0.3s;}
 
-.hero-cta {
-  position: relative; z-index: 2;
-  display: inline-flex; align-items: center; gap: 0.7rem;
-  background: var(--black); color: white;
-  padding: 1rem 2.2rem; border-radius: 10px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.1rem; font-weight: 700;
-  letter-spacing: 1.5px; text-transform: uppercase;
-  text-decoration: none; margin-top: 2.2rem;
-  transition: all 0.3s;
-  animation: fadeUp 0.5s 0.3s ease both;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+/* ── PROCESS ── */
+#how{background:var(--cream2);padding:7rem 0;}
+.how-wrap{max-width:1200px;margin:0 auto;padding:0 4rem;}
+.how-hd{text-align:center;margin-bottom:5rem;}
+.step-row{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;min-height:340px;margin-bottom:3px;overflow:hidden;
 }
-.hero-cta:hover { background: #222; transform: translateY(-2px); box-shadow: 0 10px 35px rgba(0,0,0,0.22); }
-.cta-arrow { width: 28px; height: 28px; background: rgba(255,255,255,0.1); border-radius: 6px; display: flex; align-items: center; justify-content: center; }
+.step-row:nth-child(even) .step-visual{order:2;}
+.step-row:nth-child(even) .step-body{order:1;}
+.step-visual{
+  background:var(--blue);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;min-height:280px;
+}
+.step-visual.alt{background:var(--blue-deep);}
+.step-visual.alt2{background:var(--blue-dark);}
+.step-num-ghost{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:18rem;letter-spacing:-5px;
+  color:rgba(255,255,255,0.05);
+  position:absolute;line-height:1;user-select:none;
+}
+.step-ico-wrap{
+  width:90px;height:90px;border-radius:50%;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.2rem;position:relative;z-index:1;
+}
+.step-body{
+  background:white;padding:4rem;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.step-tag{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:0.9rem;letter-spacing:4px;
+  color:var(--blue);margin-bottom:1rem;
+}
+.step-body .dtitle{font-size:clamp(2rem,3.5vw,3rem);}
+.step-body p{color:var(--muted);font-size:1rem;line-height:1.8;font-weight:300;margin-top:1rem;}
 
-/* TICKER */
-.ticker-wrap {
-  width: 100vw; margin-left: calc(-50vw + 50%);
-  overflow: hidden;
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 0.9rem 0;
-  background: rgba(255,255,255,0.5);
-  margin-top: 4.5rem; position: relative; z-index: 2;
+/* ── COMPARE ── */
+#compare{
+  background:var(--blue);padding:7rem 4rem;
 }
-.ticker { display: flex; width: max-content; animation: ticker 30s linear infinite; }
-.t-item {
-  display: flex; align-items: center; gap: 1rem;
-  padding: 0 2.5rem;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.85rem; font-weight: 700;
-  color: var(--muted); text-transform: uppercase;
-  letter-spacing: 2.5px; white-space: nowrap;
+.cmp-hd{text-align:center;margin-bottom:4rem;}
+.cmp-hd .dtitle{color:white;}
+.cmp-hd .lbl{color:rgba(255,255,255,0.3);}
+.cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;max-width:860px;margin:0 auto;}
+.cmp-col{padding:3rem;}
+.cmp-col.us{background:white;}
+.cmp-col.them{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);}
+.cmp-name{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.8rem;letter-spacing:2px;margin-bottom:0.4rem;
 }
-.t-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--light); }
-@keyframes ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
-@keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+.cmp-col.us .cmp-name{color:var(--blue);}
+.cmp-col.them .cmp-name{color:rgba(255,255,255,0.18);}
+.cmp-tag{
+  display:inline-block;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.68rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;padding:0.2rem 0.9rem;
+  border-radius:100px;margin-bottom:2rem;
+}
+.cmp-col.us .cmp-tag{background:var(--blue);color:white;}
+.cmp-col.them .cmp-tag{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.2);}
+.cmp-row{
+  display:flex;align-items:center;gap:0.8rem;
+  padding:0.7rem 0;border-bottom:1px solid rgba(37,99,235,0.08);
+  font-size:0.9rem;
+}
+.cmp-col.them .cmp-row{border-color:rgba(255,255,255,0.05);color:rgba(255,255,255,0.18);}
+.cmp-row:last-child{border:none;}
+.cck{font-weight:800;font-size:0.85rem;flex-shrink:0;}
+.cmp-col.us .cck{color:var(--blue);}
+.cmp-col.them .cck{color:rgba(255,255,255,0.12);}
 
-/* ── SECTIONS ── */
-section { padding: 6rem 4rem; }
-.lbl {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.78rem; text-transform: uppercase;
-  letter-spacing: 4px; color: var(--light);
-  font-weight: 700; margin-bottom: 0.8rem;
+/* ── PRICING ── */
+#pricing{background:var(--cream);padding:7rem 4rem;}
+.pr-hd{text-align:center;margin-bottom:1.5rem;}
+.ptog{display:flex;align-items:center;gap:1rem;justify-content:center;margin-bottom:3.5rem;}
+.tl{font-size:0.88rem;color:var(--muted);font-weight:500;}
+.tl.on{color:var(--ink);font-weight:700;}
+.tog{width:46px;height:25px;background:#CBD5E1;border-radius:100px;cursor:pointer;position:relative;transition:background 0.3s;}
+.tog.on{background:var(--blue);}
+.tk{position:absolute;top:3px;left:3px;width:19px;height:19px;border-radius:50%;background:white;transition:transform 0.3s;box-shadow:0 1px 4px rgba(0,0,0,0.2);}
+.tog.on .tk{transform:translateX(21px);}
+.save-tag{
+  font-family:'Barlow Condensed',sans-serif;
+  background:var(--blue);color:white;
+  font-size:0.68rem;font-weight:700;letter-spacing:1px;
+  padding:0.2rem 0.9rem;border-radius:100px;text-transform:uppercase;
 }
-.stitle {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  letter-spacing: 2px; line-height: 1;
-  color: var(--black);
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.plan{
+  padding:3rem 2.5rem;background:white;
+  position:relative;opacity:0;transform:translateY(30px);
+  transition:all 0.3s;border:1px solid transparent;
 }
-.ssub {
-  color: var(--muted); font-size: 1rem;
-  max-width: 500px; line-height: 1.8;
-  margin-top: 1rem; font-weight: 400;
+.plan:hover{transform:translateY(-5px)!important;box-shadow:0 20px 50px rgba(37,99,235,0.1);border-color:var(--blue-mid);}
+.plan.feat{background:var(--blue);color:white;}
+.plan.feat:hover{box-shadow:0 20px 50px rgba(37,99,235,0.35);}
+.plan-badge{
+  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.68rem;font-weight:700;letter-spacing:1.5px;
+  padding:0.3rem 1.1rem;border-radius:100px;
+  white-space:nowrap;text-transform:uppercase;
+  background:white;color:var(--blue);
+  box-shadow:0 2px 12px rgba(37,99,235,0.2);
 }
+.plan-nm{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.75rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:3px;
+  color:var(--muted);margin-bottom:1.5rem;
+}
+.plan.feat .plan-nm{color:rgba(255,255,255,0.4);}
+.plan-pr{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.5rem;letter-spacing:1px;line-height:1;color:var(--ink);
+}
+.plan.feat .plan-pr{color:white;}
+.plan-pr .cur{font-size:1.1rem;vertical-align:super;}
+.plan-pr .per{font-size:0.9rem;font-family:'Barlow',sans-serif;font-weight:300;color:var(--muted);letter-spacing:0;}
+.plan.feat .plan-pr .per{color:rgba(255,255,255,0.35);}
+.plan-ds{font-size:0.88rem;color:var(--muted);margin:1rem 0 2rem;line-height:1.7;}
+.plan.feat .plan-ds{color:rgba(255,255,255,0.45);}
+.plan-feats{list-style:none;display:flex;flex-direction:column;gap:0.75rem;margin-bottom:2.5rem;}
+.plan-feats li{font-size:0.88rem;color:var(--muted);display:flex;align-items:center;gap:0.7rem;}
+.plan-feats li::before{content:'✓';color:var(--blue);font-weight:800;flex-shrink:0;font-size:0.85rem;}
+.plan-feats li.no::before{content:'✕';color:#CBD5E1;}
+.plan-feats li.no{color:#CBD5E1;}
+.plan.feat .plan-feats li{color:rgba(255,255,255,0.6);}
+.plan.feat .plan-feats li::before{color:rgba(255,255,255,0.9);}
+.plan.feat .plan-feats li.no{color:rgba(255,255,255,0.18);}
+.plan.feat .plan-feats li.no::before{color:rgba(255,255,255,0.18);}
+.plan-btn{
+  width:100%;padding:0.9rem;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.95rem;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;cursor:pointer;
+  border:1.5px solid var(--blue-mid);
+  background:transparent;color:var(--blue);
+  border-radius:8px;transition:all 0.2s;
+}
+.plan.feat .plan-btn{background:white;border-color:white;color:var(--blue);}
+.plan-btn:hover{background:var(--blue);color:white;border-color:var(--blue);}
+.plan.feat .plan-btn:hover{background:rgba(255,255,255,0.85);border-color:rgba(255,255,255,0.85);}
 
-/* SERVICES */
-#services { background: var(--white); }
-.sg { display: grid; grid-template-columns: repeat(2,1fr); gap: 1.5rem; margin-top: 3.5rem; }
-.sc {
-  padding: 2.5rem; border-radius: 14px;
-  border: 1px solid var(--border); background: var(--bg);
-  transition: all 0.3s;
+/* ── TESTIMONIALS ── */
+#testimonials{background:var(--blue-light);padding:7rem 4rem;}
+.tm-hd{margin-bottom:4rem;}
+.tm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
+.testi{
+  padding:2.5rem;background:white;border-radius:16px;
+  border:1px solid var(--border);
+  opacity:0;transform:translateY(30px);transition:all 0.3s;
 }
-.sc:hover { transform: translateY(-5px); box-shadow: 0 14px 44px rgba(0,0,0,0.08); background: white; }
-.si { width: 48px; height: 48px; background: var(--black); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; margin-bottom: 1.4rem; }
-.sc h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.25rem; font-weight: 700;
-  letter-spacing: 0.5px; margin-bottom: 0.7rem;
-  text-transform: uppercase;
+.testi:hover{transform:translateY(-5px)!important;box-shadow:0 20px 50px rgba(37,99,235,0.1);border-color:var(--blue-mid);}
+.tm-mark{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3.5rem;color:var(--blue-mid);
+  line-height:1;margin-bottom:0.5rem;
 }
-.sc p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
+.tm-quote{font-size:0.94rem;color:var(--muted);line-height:1.8;font-weight:300;font-style:italic;margin-bottom:2rem;}
+.tm-author{display:flex;align-items:center;gap:0.8rem;}
+.tm-av{
+  width:38px;height:38px;border-radius:50%;
+  background:var(--blue);color:white;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:0.82rem;flex-shrink:0;
+}
+.tm-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:0.95rem;letter-spacing:0.5px;text-transform:uppercase;color:var(--ink);}
+.tm-role{font-size:0.75rem;color:var(--light);margin-top:0.15rem;}
 
-/* PROCESS */
-#how { background: var(--bg2); }
-.stg { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem; }
-.step {
-  padding: 2.5rem 2rem; border: 1px solid var(--border);
-  border-radius: 14px; background: var(--white);
-  transition: all 0.3s; opacity: 0; transform: translateY(28px);
+/* ── FAQ ── */
+#faq{background:var(--white);padding:7rem 4rem;}
+.faq-wrap{display:grid;grid-template-columns:1fr 2fr;gap:6rem;align-items:start;}
+.faq-intro .dtitle{font-size:clamp(2.5rem,4vw,4rem);}
+.faq-intro p{color:var(--muted);font-size:1rem;line-height:1.8;font-weight:300;margin-top:1.2rem;}
+.faq-items{display:flex;flex-direction:column;gap:0;}
+.faq-i{border-bottom:1px solid var(--border2);overflow:hidden;}
+.faq-i:first-child{border-top:1px solid var(--border2);}
+.faq-q{
+  padding:1.4rem 0;cursor:pointer;
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;font-size:1.05rem;
+  letter-spacing:0.3px;text-transform:uppercase;
+  user-select:none;color:var(--ink);transition:color 0.2s;
 }
-.step:hover { transform: translateY(-5px) !important; box-shadow: 0 14px 44px rgba(0,0,0,0.08); }
-.sn {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 5rem; color: rgba(0,0,0,0.07);
-  line-height: 1; margin-bottom: 1rem; letter-spacing: 2px;
+.faq-q:hover{color:var(--blue);}
+.faq-ico{
+  width:30px;height:30px;
+  border:1.5px solid var(--blue-mid);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;transition:all 0.3s;flex-shrink:0;color:var(--blue);
 }
-.step h3 {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.2rem; font-weight: 700;
-  letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.7rem;
+.faq-i.open .faq-ico{transform:rotate(45deg);background:var(--blue);color:white;border-color:var(--blue);}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height 0.35s ease,padding 0.35s;
+  font-size:0.95rem;color:var(--muted);line-height:1.8;font-weight:300;padding:0;
 }
-.step p { font-size: 0.95rem; color: var(--muted); line-height: 1.8; }
+.faq-i.open .faq-a{max-height:200px;padding-bottom:1.4rem;}
 
-/* COMPARE */
-#compare { background: var(--white); }
-.cg { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 3.5rem; }
-.cc { padding: 2.5rem; border-radius: 14px; border: 1px solid var(--border); background: var(--bg); }
-.cc.us { background: var(--black); color: white; border-color: var(--black); }
-.ctitle {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 1.5rem; letter-spacing: 2px;
-  margin-bottom: 1.5rem; display: flex;
-  align-items: center; gap: 0.8rem;
+/* ── CONTACT ── */
+#contact{background:var(--blue);padding:7rem 4rem;}
+.ct-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:start;}
+.ct-left .lbl{color:rgba(255,255,255,0.3);}
+.ct-left .dtitle{color:white;font-size:clamp(2.5rem,4vw,4rem);margin-top:0.8rem;}
+.ct-left p{color:rgba(255,255,255,0.45);font-size:1rem;line-height:1.8;font-weight:300;margin:1.5rem 0 2rem;}
+.book-cta{
+  display:inline-flex;align-items:center;gap:0.7rem;
+  background:white;color:var(--blue);
+  padding:1rem 2rem;border-radius:8px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;text-decoration:none;
+  transition:all 0.25s;margin-bottom:2.5rem;
+  box-shadow:0 4px 20px rgba(0,0,0,0.15);
 }
-.ctag { font-family: 'Barlow Condensed', sans-serif; font-size: 0.7rem; padding: 0.25rem 0.9rem; background: rgba(255,255,255,0.12); border-radius: 100px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-.cc:not(.us) .ctag { background: var(--black); color: white; }
-.ci {
-  display: flex; align-items: center; gap: 0.8rem;
-  padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.07);
-  font-size: 0.95rem; color: rgba(255,255,255,0.65); font-weight: 400;
+.book-cta:hover{background:#EFF6FF;transform:translateY(-2px);}
+.ct-info{display:flex;flex-direction:column;gap:1.2rem;}
+.ct-row{display:flex;align-items:center;gap:1rem;}
+.ct-ico{
+  width:44px;height:44px;border-radius:10px;
+  background:rgba(255,255,255,0.1);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
 }
-.cc:not(.us) .ci { border-color: var(--border); color: var(--muted); }
-.ci:last-child { border-bottom: none; }
-.ck { color: white; font-size: 0.9rem; flex-shrink: 0; font-weight: 700; }
-.cx { color: rgba(255,255,255,0.2); font-size: 0.9rem; flex-shrink: 0; }
-.cc:not(.us) .ck { color: var(--black); }
-.cc:not(.us) .cx { color: #ccc; }
+.ct-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.68rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:0.15rem;
+}
+.ct-val{font-size:0.9rem;color:rgba(255,255,255,0.55);}
+.ct-form{display:flex;flex-direction:column;gap:1rem;}
+.ct-row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.ct-fg{display:flex;flex-direction:column;gap:0.4rem;}
+.ct-lbl{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:0.68rem;font-weight:700;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,0.3);
+}
+.ct-inp,.ct-sel,.ct-ta{
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.12);
+  border-radius:8px;padding:0.85rem 1rem;
+  color:white;font-family:'Barlow',sans-serif;
+  font-size:0.9rem;outline:none;
+  transition:border-color 0.2s,background 0.2s;
+}
+.ct-inp:focus,.ct-sel:focus,.ct-ta:focus{
+  border-color:rgba(255,255,255,0.35);
+  background:rgba(255,255,255,0.12);
+}
+.ct-inp::placeholder,.ct-ta::placeholder{color:rgba(255,255,255,0.2);}
+.ct-sel option{background:#1E40AF;color:white;}
+.ct-ta{resize:vertical;min-height:110px;}
+.ct-sub{
+  background:white;color:var(--blue);border:none;
+  padding:1rem 1.5rem;border-radius:8px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:1rem;font-weight:700;letter-spacing:1.5px;
+  text-transform:uppercase;cursor:pointer;
+  transition:all 0.25s;
+  box-shadow:0 4px 14px rgba(0,0,0,0.12);
+}
+.ct-sub:hover{background:#EFF6FF;transform:translateY(-2px);box-shadow:0 8px 25px rgba(0,0,0,0.15);}
 
-/* PRICING */
-#pricing { background: var(--bg2); }
-.ptog { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; }
-.tl { font-size: 0.9rem; color: var(--muted); font-weight: 500; }
-.tl.on { color: var(--black); font-weight: 700; }
-.tog { width: 46px; height: 25px; background: #d8d7d3; border-radius: 100px; cursor: pointer; position: relative; transition: background 0.3s; }
-.tog.on { background: var(--black); }
-.tk { position: absolute; top: 3px; left: 3px; width: 19px; height: 19px; border-radius: 50%; background: white; transition: transform 0.3s; box-shadow: 0 1px 4px rgba(0,0,0,0.2); }
-.tog.on .tk { transform: translateX(21px); }
-.sbadge {
-  font-family: 'Barlow Condensed', sans-serif;
-  background: var(--black); color: white;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
-  padding: 0.25rem 0.9rem; border-radius: 100px; text-transform: uppercase;
+/* ── FOOTER ── */
+footer{
+  background:var(--blue-deep);padding:2rem 4rem;
+  display:flex;justify-content:space-between;
+  align-items:center;flex-wrap:wrap;gap:1rem;
 }
+.ft-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;letter-spacing:3px;color:rgba(255,255,255,0.25);}
+.ft-links{display:flex;gap:2rem;flex-wrap:wrap;}
+.ft-links a{font-size:0.82rem;color:rgba(255,255,255,0.2);text-decoration:none;transition:color 0.2s;}
+.ft-links a:hover{color:rgba(255,255,255,0.6);}
+footer p{font-size:0.75rem;color:rgba(255,255,255,0.12);}
 
-.plans { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3rem; }
-.plan {
-  padding: 2.5rem; border-radius: 14px;
-  border: 1px solid var(--border); background: var(--white);
-  transition: all 0.3s; position: relative;
-  opacity: 0; transform: translateY(28px);
-}
-.plan.feat { background: var(--black); color: white; border-color: var(--black); }
-.plan:hover { transform: translateY(-6px) !important; box-shadow: 0 20px 50px rgba(0,0,0,0.1); }
-.pbadge {
-  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-  background: var(--black); color: white;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 1.5px;
-  padding: 0.3rem 1.1rem; border-radius: 100px;
-  white-space: nowrap; text-transform: uppercase;
-}
-.plan.feat .pbadge { background: white; color: var(--black); }
-.pname {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.78rem; font-weight: 700;
-  text-transform: uppercase; letter-spacing: 3px;
-  color: var(--muted); margin-bottom: 1.2rem;
-}
-.plan.feat .pname { color: rgba(255,255,255,0.4); }
-.pprice {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: 3.2rem; letter-spacing: 1px; line-height: 1;
-}
-.pprice .cur { font-size: 1.1rem; vertical-align: super; }
-.pprice .per { font-size: 0.9rem; color: var(--muted); font-family: 'Barlow', sans-serif; font-weight: 400; letter-spacing: 0; }
-.plan.feat .pprice .per { color: rgba(255,255,255,0.35); }
-.pdesc { font-size: 0.93rem; color: var(--muted); margin: 0.9rem 0 1.8rem; line-height: 1.7; }
-.plan.feat .pdesc { color: rgba(255,255,255,0.45); }
-.pf { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
-.pf li { font-size: 0.92rem; color: var(--muted); display: flex; align-items: center; gap: 0.7rem; line-height: 1.4; }
-.pf li::before { content: '✓'; color: var(--black); font-weight: 800; flex-shrink: 0; font-size: 0.85rem; }
-.pf li.no::before { content: '✕'; color: #c8c7c3; }
-.pf li.no { color: #c8c7c3; }
-.plan.feat .pf li { color: rgba(255,255,255,0.65); }
-.plan.feat .pf li::before { color: white; }
-.plan.feat .pf li.no::before { color: rgba(255,255,255,0.18); }
-.plan.feat .pf li.no { color: rgba(255,255,255,0.18); }
-.pbtn {
-  width: 100%; padding: 0.9rem;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1rem; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; cursor: pointer;
-  border: 1.5px solid var(--border2); background: transparent;
-  color: var(--black); border-radius: 8px; transition: all 0.2s;
-}
-.plan.feat .pbtn { background: white; border-color: white; color: var(--black); }
-.pbtn:hover { background: var(--black); color: white; border-color: var(--black); }
-.plan.feat .pbtn:hover { background: #e8e8e8; border-color: #e8e8e8; }
-
-/* TESTIMONIALS */
-#testimonials { background: var(--white); }
-.tg { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; margin-top: 3.5rem; }
-.tm {
-  padding: 2rem; border-radius: 14px;
-  border: 1px solid var(--border); background: var(--bg);
-  transition: all 0.3s; opacity: 0; transform: translateY(28px);
-}
-.tm:hover { transform: translateY(-5px) !important; box-shadow: 0 14px 40px rgba(0,0,0,0.07); background: white; }
-.tt { font-size: 0.95rem; color: var(--dark); line-height: 1.8; margin-bottom: 1.5rem; font-weight: 400; font-style: italic; }
-.tt::before { content: '"'; font-family: 'Bebas Neue', sans-serif; color: var(--black); font-size: 2.5rem; font-style: normal; line-height: 0; vertical-align: -0.5rem; margin-right: 0.1rem; }
-.ta { display: flex; align-items: center; gap: 0.8rem; }
-.av { width: 38px; height: 38px; border-radius: 50%; background: var(--black); color: white; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 0.85rem; flex-shrink: 0; letter-spacing: 0.5px; }
-.an { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.5px; text-transform: uppercase; }
-.ar { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
-
-/* FAQ */
-#faq { background: var(--bg2); }
-.fl { margin-top: 3rem; display: flex; flex-direction: column; gap: 0.8rem; max-width: 780px; }
-.fi { border: 1px solid var(--border); border-radius: 12px; background: var(--white); overflow: hidden; transition: all 0.3s; }
-.fi.open { border-color: var(--border2); box-shadow: 0 4px 20px rgba(0,0,0,0.05); }
-.fq {
-  padding: 1.3rem 1.5rem; cursor: pointer;
-  display: flex; justify-content: space-between; align-items: center;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-weight: 700; font-size: 1.05rem;
-  letter-spacing: 0.3px; text-transform: uppercase;
-  user-select: none; color: var(--black);
-}
-.ficon { width: 28px; height: 28px; background: var(--black); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: transform 0.3s; flex-shrink: 0; font-family: 'Barlow', sans-serif; }
-.fi.open .ficon { transform: rotate(45deg); }
-.fa { max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s; font-size: 0.95rem; color: var(--muted); line-height: 1.8; padding: 0 1.5rem; }
-.fi.open .fa { max-height: 200px; padding: 0 1.5rem 1.4rem; }
-
-/* CONTACT */
-#contact { background: var(--white); }
-.cntg { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; }
-.ci2 { display: flex; flex-direction: column; gap: 1.8rem; }
-.ci2 h2 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(2.2rem, 4vw, 3.2rem);
-  letter-spacing: 2px; line-height: 1.05; color: var(--black);
-}
-.ci2 p { font-size: 1rem; color: var(--muted); line-height: 1.8; }
-.citems { display: flex; flex-direction: column; gap: 1.2rem; }
-.citem { display: flex; align-items: center; gap: 1rem; }
-.cico { width: 46px; height: 46px; background: var(--black); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-.ctxt strong { display: block; font-family: 'Barlow Condensed', sans-serif; font-size: 0.85rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--black); margin-bottom: 0.15rem; }
-.ctxt span { font-size: 0.9rem; color: var(--muted); }
-
-.cf { display: flex; flex-direction: column; gap: 1.1rem; }
-.fr { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-.fg { display: flex; flex-direction: column; gap: 0.45rem; }
-.fg label {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 0.75rem; color: var(--muted);
-  text-transform: uppercase; letter-spacing: 2px; font-weight: 700;
-}
-.fg input, .fg textarea, .fg select {
-  background: var(--bg); border: 1px solid var(--border2);
-  border-radius: 10px; padding: 0.9rem 1rem; color: var(--black);
-  font-family: 'Barlow', sans-serif; font-size: 0.95rem;
-  outline: none; transition: border-color 0.2s, background 0.2s;
-}
-.fg input:focus, .fg textarea:focus, .fg select:focus { border-color: var(--black); background: white; }
-.fg textarea { resize: vertical; min-height: 120px; }
-.fg select option { background: white; }
-.sbtn {
-  background: var(--black); color: white; border: none;
-  padding: 1rem 1.5rem; border-radius: 10px;
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: 1.05rem; font-weight: 700; letter-spacing: 1.5px;
-  text-transform: uppercase; cursor: pointer;
-  transition: all 0.3s; margin-top: 0.3rem;
-}
-.sbtn:hover { background: #222; transform: translateY(-2px); box-shadow: 0 8px 28px rgba(0,0,0,0.15); }
-
-/* FOOTER */
-footer {
-  padding: 2.5rem 4rem;
-  border-top: 1px solid var(--border);
-  background: var(--bg);
-  display: flex; justify-content: space-between;
-  align-items: center; flex-wrap: wrap; gap: 1rem;
-}
-.fl2 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 3px; color: var(--black); }
-.flinks { display: flex; gap: 2rem; flex-wrap: wrap; }
-.flinks a { font-size: 0.85rem; color: var(--muted); text-decoration: none; transition: color 0.2s; font-weight: 500; }
-.flinks a:hover { color: var(--black); }
-footer p { font-size: 0.8rem; color: var(--light); }
+/* ── ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(36px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-l{opacity:0;transform:translateX(-36px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-l.visible{opacity:1;transform:translateX(0);}
+.reveal-r{opacity:0;transform:translateX(36px);transition:opacity 0.7s ease,transform 0.7s ease;}
+.reveal-r.visible{opacity:1;transform:translateX(0);}
 
 /* ── MOBILE ── */
-@media (max-width: 900px) {
-  nav { padding: 1rem 1.5rem; }
-  .nav-links { display: none; }
-  .hamburger { display: flex; }
-
-  .hero { padding: 7rem 1.5rem 3rem; text-align: center; }
-  .orb-wrap { width: 320px; height: 320px; }
-  .hero h1 { font-size: clamp(4rem, 18vw, 7rem); letter-spacing: 2px; }
-  .hero-tagline { font-size: 0.9rem; letter-spacing: 2px; }
-  .hero-sub { font-size: 0.95rem; max-width: 100%; }
-  .hero-brand { flex-direction: column; gap: 1rem; }
-  .brand-sphere { width: 72px; height: 72px; }
-
-  section { padding: 4rem 1.5rem; }
-  .stitle { font-size: clamp(2rem, 8vw, 3rem); }
-  .ssub { max-width: 100%; font-size: 0.95rem; }
-
-  .sg { grid-template-columns: 1fr; gap: 1rem; }
-  .stg { grid-template-columns: 1fr; gap: 1rem; }
-  .plans { grid-template-columns: 1fr; gap: 1.5rem; }
-  .cg { grid-template-columns: 1fr; gap: 1rem; }
-  .tg { grid-template-columns: 1fr; gap: 1rem; }
-  .cntg { grid-template-columns: 1fr; gap: 3rem; }
-  .fr { grid-template-columns: 1fr; }
-
-  .fl { max-width: 100%; }
-  footer { flex-direction: column; text-align: center; padding: 2rem 1.5rem; gap: 1.2rem; }
-  .flinks { justify-content: center; gap: 1.2rem; }
+@media(max-width:960px){
+  nav{padding:1rem 1.5rem;}
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+  .hero{grid-template-columns:1fr;}
+  .hero-left{padding:6rem 2rem 4rem;}
+  .hero-right{min-height:420px;padding:2rem 1.5rem;}
+  .hb1,.hb2{display:none;}
+  section{padding:4rem 1.5rem;}
+  #compare,#pricing,#faq,#contact{padding:4rem 1.5rem;}
+  #how{padding:4rem 0;}
+  .sv-grid{grid-template-columns:1fr;}
+  .sv-intro{position:relative;top:0;height:auto;padding:4rem 1.5rem;}
+  .sv-item{padding:1.8rem 1.5rem;}
+  .step-row{grid-template-columns:1fr;}
+  .step-row:nth-child(even) .step-visual,.step-row:nth-child(even) .step-body{order:unset;}
+  .step-body{padding:2.5rem 1.5rem;}
+  .step-visual{min-height:200px;}
+  .cmp-grid,.plans-grid,.tm-grid{grid-template-columns:1fr;}
+  .faq-wrap,.ct-grid{grid-template-columns:1fr;gap:3rem;}
+  .ct-row2{grid-template-columns:1fr;}
+  .hero-stats{gap:1.5rem;}
+  .how-wrap{padding:0 1.5rem;}
+  footer{flex-direction:column;text-align:center;padding:2rem 1.5rem;}
+  .ft-links{justify-content:center;}
+}
+@media(max-width:480px){
+  .hero-h1{font-size:clamp(3.5rem,18vw,6rem);}
 }
 
-@media (max-width: 480px) {
-  .hero h1 { font-size: clamp(3.5rem, 20vw, 5.5rem); }
-  .hero-cta { font-size: 0.95rem; padding: 0.9rem 1.8rem; }
-  .sc, .step, .plan, .tm { padding: 1.8rem 1.5rem; }
-  .cc { padding: 1.8rem 1.5rem; }
-  .ci2, .cf { gap: 1rem; }
-}
+/* ── CHAT WIDGET ── */
+#wo{position:fixed;inset:0;z-index:9998;background:rgba(15,23,42,0.3);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity 0.3s;}
+#wo.open{opacity:1;pointer-events:all;}
+#ww{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);width:400px;max-width:calc(100vw - 2rem);height:560px;max-height:calc(100vh - 2rem);background:#fff;border-radius:20px;box-shadow:0 30px 80px rgba(37,99,235,0.2),0 0 0 1px rgba(37,99,235,0.08);display:flex;flex-direction:column;z-index:9999;overflow:hidden;opacity:0;pointer-events:none;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);}
+#ww.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1);}
+#wh{background:var(--blue);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:0.9rem;flex-shrink:0;}
+.wav{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.wav svg{width:20px;height:20px;fill:white;}
+.whi{flex:1;}
+.whn{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:white;line-height:1;}
+.whs{display:flex;align-items:center;gap:0.4rem;margin-top:0.25rem;}
+.whd{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:whPulse 2s infinite;}
+@keyframes whPulse{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.4)}50%{box-shadow:0 0 0 4px rgba(74,222,128,0)}}
+.wht{font-size:0.7rem;color:rgba(255,255,255,0.5);font-family:'Barlow',sans-serif;}
+.wcl{width:30px;height:30px;background:rgba(255,255,255,0.1);border-radius:50%;border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.2s;}
+.wcl:hover{background:rgba(255,255,255,0.2);}
+#wm{flex:1;overflow-y:auto;padding:1.2rem 1.2rem 0.5rem;display:flex;flex-direction:column;gap:0.9rem;scroll-behavior:smooth;}
+#wm::-webkit-scrollbar{width:4px;}
+#wm::-webkit-scrollbar-thumb{background:var(--blue-mid);border-radius:2px;}
+.wmsg{display:flex;gap:0.6rem;align-items:flex-end;animation:wmin 0.3s cubic-bezier(0.34,1.56,0.64,1) both;}
+@keyframes wmin{from{opacity:0;transform:translateY(10px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
+.wmsg.user{flex-direction:row-reverse;}
+.wmav{width:28px;height:28px;border-radius:50%;background:var(--blue);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;}
+.wmsg.user .wmav{background:var(--blue-mid);color:var(--blue-dark);}
+.wbub{max-width:78%;padding:0.75rem 1rem;border-radius:14px;font-size:0.9rem;line-height:1.6;font-family:'Barlow',sans-serif;word-wrap:break-word;}
+.wmsg.bot .wbub{background:var(--blue-light);color:var(--ink);border-radius:3px 14px 14px 14px;}
+.wmsg.user .wbub{background:var(--blue);color:white;border-radius:14px 3px 14px 14px;}
+.wtyp{display:flex;gap:4px;align-items:center;padding:0.85rem 1rem;}
+.wtyp span{width:7px;height:7px;border-radius:50%;background:var(--blue-mid);animation:wtypa 1.2s infinite;}
+.wtyp span:nth-child(2){animation-delay:0.2s;}.wtyp span:nth-child(3){animation-delay:0.4s;}
+@keyframes wtypa{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}}
+#wqr{padding:0.6rem 1.2rem;display:flex;gap:0.5rem;flex-wrap:wrap;flex-shrink:0;}
+.wqb{background:transparent;border:1.5px solid var(--blue-mid);color:var(--blue);padding:0.4rem 0.9rem;border-radius:100px;font-size:0.8rem;font-family:'Barlow',sans-serif;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
+.wqb:hover{background:var(--blue);color:white;border-color:var(--blue);}
+#wia{padding:0.9rem 1.2rem;border-top:1px solid var(--border);display:flex;gap:0.6rem;align-items:center;flex-shrink:0;background:white;}
+#wi{flex:1;border:1.5px solid var(--blue-mid);border-radius:10px;padding:0.7rem 1rem;font-family:'Barlow',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;resize:none;line-height:1.4;color:var(--ink);background:var(--blue-light);max-height:100px;}
+#wi:focus{border-color:var(--blue);background:white;}
+#wi::placeholder{color:var(--light);}
+#wsb{width:40px;height:40px;flex-shrink:0;background:var(--blue);border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;box-shadow:0 4px 12px rgba(37,99,235,0.25);}
+#wsb:hover{background:var(--blue-dark);transform:scale(1.05);}
+#wsb svg{width:18px;height:18px;fill:white;}
+#wsb:disabled{background:var(--blue-mid);cursor:not-allowed;transform:none;box-shadow:none;}
+#wtr{position:fixed;bottom:2rem;right:2rem;z-index:9997;width:58px;height:58px;background:var(--blue);border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(37,99,235,0.35);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);animation:wtrpop 0.5s 0.5s both;}
+@keyframes wtrpop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
+#wtr:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(37,99,235,0.45);}
+#wtr.open{transform:scale(0.9) rotate(90deg);}
+#wtr svg{width:26px;height:26px;fill:white;transition:all 0.3s;}
+.wtp{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(37,99,235,0.25);animation:wtring 2.5s infinite;}
+@keyframes wtring{0%{transform:scale(1);opacity:0.5}100%{transform:scale(1.4);opacity:0}}
+.wpow{text-align:center;padding:0.4rem;font-size:0.65rem;color:var(--light);font-family:'Barlow',sans-serif;}
+.wpow a{color:var(--blue);text-decoration:none;font-weight:600;}
 </style>
 </head>
 <body>
 
 <!-- NAV -->
-<nav>
-  <a class="logo" href="#">
-    <div class="logo-mark"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-    Winx
-  </a>
+<nav id="nav">
+  <a class="logo" href="#"><div class="logo-spark"></div>Winx</a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#how">Process</a></li>
     <li><a href="#pricing">Pricing</a></li>
     <li><a href="#faq">FAQ</a></li>
-    <li><a href="#contact" class="nav-btn">Get Started ↗</a></li>
+    <li><a href="https://calendly.com/antiquevaultke/30min" target="_blank" class="nav-cta">Book a Call</a></li>
   </ul>
-  <div class="hamburger" onclick="toggleMenu()" id="ham">
-    <span></span><span></span><span></span>
-  </div>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
 </nav>
-
-<!-- MOBILE MENU -->
 <div class="mob-menu" id="mobmenu">
   <a href="#services" onclick="closeMenu()">Services</a>
   <a href="#how" onclick="closeMenu()">Process</a>
   <a href="#pricing" onclick="closeMenu()">Pricing</a>
   <a href="#faq" onclick="closeMenu()">FAQ</a>
-  <a href="#contact" onclick="closeMenu()" style="color:var(--black);font-weight:800;">Get Started ↗</a>
+  <a href="#contact" onclick="closeMenu()">Contact</a>
+  <a href="https://calendly.com/antiquevaultke/30min" target="_blank" style="color:var(--blue);font-weight:800;" onclick="closeMenu()">📅 Book Free Call</a>
 </div>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="orb-wrap">
-    <div class="ripple-lines"></div>
-    <div class="orb-ring r1"></div><div class="orb-ring r2"></div>
-    <div class="orb-ring r3"></div><div class="orb-ring r4"></div>
-    <div class="orb-ring r5"></div><div class="orb"></div>
-  </div>
-  <div class="hero-socials">
-    <a class="soc" href="https://x.com/ceeddy492" target="_blank">𝕏</a>
-    <a class="soc" href="#" target="_blank">▣</a>
-    <a class="soc" href="#" target="_blank">in</a>
-  </div>
-  <div class="hero-brand">
-    <div class="brand-sphere">
-      <div class="sphere-core"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow reveal-l">Nairobi, Kenya · AI Automation Agency</div>
+    <h1 class="hero-h1 reveal-l" style="transition-delay:0.1s;">Build<br>Smarter<br><span class="soft">Business</span></h1>
+    <p class="hero-desc reveal-l" style="transition-delay:0.2s;">Custom AI chatbots and automation workflows that save time, cut costs, and keep your business running 24/7 — no technical knowledge needed.</p>
+    <div class="hero-btns reveal-l" style="transition-delay:0.3s;">
+      <a href="#contact" class="btn-white">Get Started ↗</a>
+      <a href="https://calendly.com/antiquevaultke/30min" target="_blank" class="btn-outline-white">📅 Book Free Call</a>
     </div>
-    <h1>WINX <span class="ghost">AI</span></h1>
-  </div>
-  <div class="hero-tagline">AI Automation · Built for Your Business</div>
-  <p class="hero-sub">Custom AI chatbots and automation workflows that save time, cut costs, and keep your business running 24/7.</p>
-  <a href="#contact" class="hero-cta">Get Started <div class="cta-arrow">↗</div></a>
-  <div class="ticker-wrap">
-    <div class="ticker">
-      <div class="t-item"><div class="t-dot"></div>AI Chatbots</div>
-      <div class="t-item"><div class="t-dot"></div>Workflow Automation</div>
-      <div class="t-item"><div class="t-dot"></div>24/7 Support</div>
-      <div class="t-item"><div class="t-dot"></div>WhatsApp Integration</div>
-      <div class="t-item"><div class="t-dot"></div>Smart Lead Gen</div>
-      <div class="t-item"><div class="t-dot"></div>Content Automation</div>
-      <div class="t-item"><div class="t-dot"></div>AI Strategy</div>
-      <div class="t-item"><div class="t-dot"></div>Data Insights</div>
-      <div class="t-item"><div class="t-dot"></div>AI Chatbots</div>
-      <div class="t-item"><div class="t-dot"></div>Workflow Automation</div>
-      <div class="t-item"><div class="t-dot"></div>24/7 Support</div>
-      <div class="t-item"><div class="t-dot"></div>WhatsApp Integration</div>
-      <div class="t-item"><div class="t-dot"></div>Smart Lead Gen</div>
-      <div class="t-item"><div class="t-dot"></div>Content Automation</div>
-      <div class="t-item"><div class="t-dot"></div>AI Strategy</div>
-      <div class="t-item"><div class="t-dot"></div>Data Insights</div>
+    <div class="hero-stats reveal-l" style="transition-delay:0.4s;">
+      <div><div class="stat-n">48H</div><div class="stat-l">To Go Live</div></div>
+      <div><div class="stat-n">24/7</div><div class="stat-l">Always On</div></div>
+      <div><div class="stat-n">100%</div><div class="stat-l">Custom Built</div></div>
     </div>
+  </div>
+  <div class="hero-right">
+    <div class="chat-card reveal-r">
+      <div class="cc-header">
+        <div class="cc-avatar"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+        <div><div class="cc-name">Winx AI</div><div class="cc-status"><div class="cc-dot"></div><div class="cc-st">Online · Replies instantly</div></div></div>
+      </div>
+      <div class="cc-msgs">
+        <div class="cc-msg b"><div class="cc-av">AI</div><div class="cc-bub">Hi! 👋 Welcome to Mama Pima Boutique. How can I help you today?</div></div>
+        <div class="cc-msg u"><div class="cc-av">U</div><div class="cc-bub">Do you have dresses in size 12?</div></div>
+        <div class="cc-msg b"><div class="cc-av">AI</div><div class="cc-bub">Yes! We have 14 dresses in size 12 from KSh 1,800. Want to see the latest arrivals? 🛍️</div></div>
+        <div class="cc-msg u"><div class="cc-av">U</div><div class="cc-bub">Yes please!</div></div>
+      </div>
+      <div class="cc-input-row">
+        <span>Type a message...</span>
+        <div class="cc-send"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg></div>
+      </div>
+    </div>
+    <div class="hero-badge hb1"><span class="bi">⚡</span>Response in 0.3s</div>
+    <div class="hero-badge hb2"><span class="bi">🛍️</span>20+ hours saved/week</div>
   </div>
 </section>
 
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <div class="ti">AI Chatbots<span class="ts">·</span></div><div class="ti">Workflow Automation<span class="ts">·</span></div>
+    <div class="ti">WhatsApp Integration<span class="ts">·</span></div><div class="ti">24/7 Support<span class="ts">·</span></div>
+    <div class="ti">Smart Lead Gen<span class="ts">·</span></div><div class="ti">AI Strategy<span class="ts">·</span></div>
+    <div class="ti">Content Automation<span class="ts">·</span></div><div class="ti">Data Insights<span class="ts">·</span></div>
+    <div class="ti">AI Chatbots<span class="ts">·</span></div><div class="ti">Workflow Automation<span class="ts">·</span></div>
+    <div class="ti">WhatsApp Integration<span class="ts">·</span></div><div class="ti">24/7 Support<span class="ts">·</span></div>
+    <div class="ti">Smart Lead Gen<span class="ts">·</span></div><div class="ti">AI Strategy<span class="ts">·</span></div>
+    <div class="ti">Content Automation<span class="ts">·</span></div><div class="ti">Data Insights<span class="ts">·</span></div>
+  </div>
+</div>
+
 <!-- SERVICES -->
 <section id="services">
-  <div class="lbl">What We Do</div>
-  <div class="stitle">Our AI-Driven Services</div>
-  <p class="ssub">Powerful AI solutions that boost your business performance and free up your time.</p>
-  <div class="sg">
-    <div class="sc"><div class="si">🤖</div><h3>AI-Powered Chatbots</h3><p>Custom chatbots trained on your business data. They answer questions, handle bookings, and support your team 24 hours a day, 7 days a week.</p></div>
-    <div class="sc"><div class="si">⚡</div><h3>Workflow Automation</h3><p>Automate repetitive tasks across your business. From lead follow-ups to content scheduling — smart systems that work while you sleep.</p></div>
-    <div class="sc"><div class="si">📱</div><h3>WhatsApp & Social Integration</h3><p>Connect your AI chatbot to WhatsApp, Instagram, and Facebook. Meet your customers exactly where they already are.</p></div>
-    <div class="sc"><div class="si">🧠</div><h3>AI Strategy Consulting</h3><p>Not sure where to start? We assess your business, identify the biggest opportunities, and build a clear roadmap for AI implementation.</p></div>
+  <div class="sv-grid">
+    <div class="sv-intro">
+      <div class="lbl reveal">What We Do</div>
+      <div class="dtitle reveal" style="transition-delay:0.1s;margin-top:0.8rem;margin-bottom:1.2rem;">AI-Driven<br>Services</div>
+      <p class="dsub reveal" style="transition-delay:0.2s;">Powerful solutions that boost performance and free up your time — so you focus on what matters most.</p>
+    </div>
+    <div>
+      <div class="sv-item reveal"><div class="sv-ico">🤖</div><div><div class="sv-title">AI-Powered Chatbots</div><div class="sv-desc">Custom chatbots trained on your business data. They answer questions, handle bookings, and support your team 24/7.</div></div></div>
+      <div class="sv-item reveal" style="transition-delay:0.1s;"><div class="sv-ico">⚡</div><div><div class="sv-title">Workflow Automation</div><div class="sv-desc">Automate repetitive tasks across your business. From lead follow-ups to content scheduling — systems that work while you sleep.</div></div></div>
+      <div class="sv-item reveal" style="transition-delay:0.2s;"><div class="sv-ico">📱</div><div><div class="sv-title">WhatsApp & Social Integration</div><div class="sv-desc">Connect your AI chatbot to WhatsApp, Instagram, and Facebook. Meet your customers where they already are.</div></div></div>
+      <div class="sv-item reveal" style="transition-delay:0.3s;"><div class="sv-ico">🧠</div><div><div class="sv-title">AI Strategy Consulting</div><div class="sv-desc">Not sure where to start? We assess your business and build a clear AI implementation roadmap tailored for you.</div></div></div>
+    </div>
   </div>
 </section>
 
 <!-- PROCESS -->
 <section id="how">
-  <div class="lbl">The Process</div>
-  <div class="stitle">Simple & Scalable</div>
-  <p class="ssub">A transparent process from first conversation to going live — no surprises.</p>
-  <div class="stg">
-    <div class="step"><div class="sn">01</div><h3>Discovery Call</h3><p>We understand your business — your goals, your customers, and where AI can make the biggest impact.</p></div>
-    <div class="step"><div class="sn">02</div><h3>Build & Train</h3><p>We build your custom AI system and train it on your data — your tone, your answers, your brand.</p></div>
-    <div class="step"><div class="sn">03</div><h3>Launch & Support</h3><p>We deploy your solution and provide ongoing support to keep everything performing at its best.</p></div>
+  <div class="how-wrap">
+    <div class="how-hd reveal">
+      <div class="lbl">The Process</div>
+      <div class="dtitle" style="margin-top:0.8rem;">Simple &amp; Scalable</div>
+    </div>
+    <div class="step-row">
+      <div class="step-visual"><div class="step-num-ghost">01</div><div class="step-ico-wrap">📞</div></div>
+      <div class="step-body reveal-r"><div class="step-tag">Step 01</div><div class="dtitle">Discovery Call</div><p>We understand your business — your goals, your customers, and where AI can make the biggest impact. No jargon, just a real conversation.</p></div>
+    </div>
+    <div class="step-row">
+      <div class="step-visual alt"><div class="step-num-ghost">02</div><div class="step-ico-wrap">⚙️</div></div>
+      <div class="step-body reveal-l"><div class="step-tag">Step 02</div><div class="dtitle">Build &amp; Train</div><p>We build your custom AI system and train it on your data — your tone, your answers, your brand. Ready in as little as 48 hours.</p></div>
+    </div>
+    <div class="step-row">
+      <div class="step-visual alt2"><div class="step-num-ghost">03</div><div class="step-ico-wrap">🚀</div></div>
+      <div class="step-body reveal-r"><div class="step-tag">Step 03</div><div class="dtitle">Launch &amp; Support</div><p>We deploy your solution and provide ongoing support to keep everything performing at its best. We're with you long after launch.</p></div>
+    </div>
   </div>
 </section>
 
 <!-- COMPARE -->
 <section id="compare">
-  <div class="lbl">Why Winx</div>
-  <div class="stitle">Winx vs The Rest</div>
-  <p class="ssub">See why businesses choose Winx over generic one-size-fits-all solutions.</p>
-  <div class="cg">
-    <div class="cc us">
-      <div class="ctitle">Winx <span class="ctag">✦ Us</span></div>
-      <div class="ci"><span class="ck">✓</span> Custom-trained AI on your data</div>
-      <div class="ci"><span class="ck">✓</span> Automated workflows built for you</div>
-      <div class="ci"><span class="ck">✓</span> WhatsApp & social integration</div>
-      <div class="ci"><span class="ck">✓</span> Ongoing support & optimization</div>
-      <div class="ci"><span class="ck">✓</span> Speaks your brand's voice</div>
-      <div class="ci"><span class="ck">✓</span> Results in days, not months</div>
+  <div class="cmp-hd reveal">
+    <div class="lbl">Why Winx</div>
+    <div class="dtitle" style="color:white;margin-top:0.8rem;">Winx vs The Rest</div>
+  </div>
+  <div class="cmp-grid">
+    <div class="cmp-col us reveal-l">
+      <div class="cmp-name">Winx</div><div class="cmp-tag">✦ Us</div>
+      <div class="cmp-row"><span class="cck">✓</span> Custom-trained AI on your data</div>
+      <div class="cmp-row"><span class="cck">✓</span> Automated workflows built for you</div>
+      <div class="cmp-row"><span class="cck">✓</span> WhatsApp & social integration</div>
+      <div class="cmp-row"><span class="cck">✓</span> Ongoing support & optimization</div>
+      <div class="cmp-row"><span class="cck">✓</span> Speaks your brand's voice</div>
+      <div class="cmp-row"><span class="cck">✓</span> Results in days, not months</div>
     </div>
-    <div class="cc">
-      <div class="ctitle">Others <span class="ctag">Generic</span></div>
-      <div class="ci"><span class="cx">✕</span> Generic one-size-fits-all bots</div>
-      <div class="ci"><span class="cx">✕</span> Manual workflows and guesswork</div>
-      <div class="ci"><span class="cx">✕</span> Limited platform support</div>
-      <div class="ci"><span class="cx">✕</span> No ongoing help after setup</div>
-      <div class="ci"><span class="cx">✕</span> Robotic, off-brand responses</div>
-      <div class="ci"><span class="cx">✕</span> Slow, complex onboarding</div>
+    <div class="cmp-col them reveal-r">
+      <div class="cmp-name">Others</div><div class="cmp-tag">Generic</div>
+      <div class="cmp-row"><span class="cck">✕</span> Generic one-size-fits-all bots</div>
+      <div class="cmp-row"><span class="cck">✕</span> Manual workflows and guesswork</div>
+      <div class="cmp-row"><span class="cck">✕</span> Limited platform support</div>
+      <div class="cmp-row"><span class="cck">✕</span> No ongoing help after setup</div>
+      <div class="cmp-row"><span class="cck">✕</span> Robotic, off-brand responses</div>
+      <div class="cmp-row"><span class="cck">✕</span> Slow, complex onboarding</div>
     </div>
   </div>
 </section>
 
 <!-- PRICING -->
 <section id="pricing">
-  <div class="lbl">Pricing</div>
-  <div class="stitle">Simple Pricing for All</div>
-  <p class="ssub">Flexible plans that fit your budget and scale with your growth.</p>
+  <div class="pr-hd reveal">
+    <div class="lbl">Pricing</div>
+    <div class="dtitle" style="margin-top:0.8rem;">Simple Pricing</div>
+  </div>
   <div class="ptog">
     <span class="tl on" id="ml">Monthly</span>
     <div class="tog" id="tog" onclick="tp()"><div class="tk"></div></div>
     <span class="tl" id="yl">Yearly</span>
-    <span class="sbadge">Save 30%</span>
+    <span class="save-tag">Save 30%</span>
   </div>
-  <div class="plans">
+  <div class="plans-grid">
     <div class="plan">
-      <div class="pname">Starter</div>
-      <div class="pprice"><span class="cur">KSh </span><span id="a1">4,999</span><span class="per">/mo</span></div>
-      <div class="pdesc">Perfect for small businesses ready to explore AI automation.</div>
-      <ul class="pf"><li>1 AI Chatbot</li><li>500 messages/month</li><li>Website embed</li><li>Basic customization</li><li>Email support</li><li class="no">WhatsApp integration</li><li class="no">Analytics report</li></ul>
-      <button class="pbtn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+      <div class="plan-nm">Starter</div>
+      <div class="plan-pr"><span class="cur">KSh </span><span id="a1">4,999</span><span class="per">/mo</span></div>
+      <div class="plan-ds">Perfect for small businesses ready to explore AI automation.</div>
+      <ul class="plan-feats"><li>1 AI Chatbot</li><li>500 messages/month</li><li>Website embed</li><li>Basic customization</li><li>Email support</li><li class="no">WhatsApp integration</li><li class="no">Analytics report</li></ul>
+      <button class="plan-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
     </div>
     <div class="plan feat">
-      <div class="pbadge">⭐ Most Popular</div>
-      <div class="pname">Growth</div>
-      <div class="pprice"><span class="cur">KSh </span><span id="a2">9,999</span><span class="per">/mo</span></div>
-      <div class="pdesc">For growing businesses that want a real competitive edge.</div>
-      <ul class="pf"><li>1 AI Chatbot</li><li>2,000 messages/month</li><li>Website embed</li><li>Full customization</li><li>Priority support</li><li>WhatsApp integration</li><li>Monthly analytics report</li></ul>
-      <button class="pbtn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
+      <div class="plan-badge">⭐ Most Popular</div>
+      <div class="plan-nm">Growth</div>
+      <div class="plan-pr"><span class="cur">KSh </span><span id="a2">9,999</span><span class="per">/mo</span></div>
+      <div class="plan-ds">For growing businesses that want a real competitive edge.</div>
+      <ul class="plan-feats"><li>1 AI Chatbot</li><li>2,000 messages/month</li><li>Website embed</li><li>Full customization</li><li>Priority support</li><li>WhatsApp integration</li><li>Monthly analytics report</li></ul>
+      <button class="plan-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get Started</button>
     </div>
     <div class="plan">
-      <div class="pname">Enterprise</div>
-      <div class="pprice">Custom</div>
-      <div class="pdesc">Fully tailored AI solutions for larger organizations.</div>
-      <ul class="pf"><li>Multiple chatbots</li><li>Unlimited messages</li><li>All integrations</li><li>Custom AI training</li><li>Dedicated support</li><li>WhatsApp integration</li><li>Full analytics dashboard</li></ul>
-      <button class="pbtn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
+      <div class="plan-nm">Enterprise</div>
+      <div class="plan-pr">Custom</div>
+      <div class="plan-ds">Fully tailored AI solutions for larger organizations.</div>
+      <ul class="plan-feats"><li>Multiple chatbots</li><li>Unlimited messages</li><li>All integrations</li><li>Custom AI training</li><li>Dedicated support</li><li>WhatsApp integration</li><li>Full analytics dashboard</li></ul>
+      <button class="plan-btn" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contact Us</button>
     </div>
   </div>
 </section>
 
 <!-- TESTIMONIALS -->
 <section id="testimonials">
-  <div class="lbl">Clients</div>
-  <div class="stitle">What Our Clients Say</div>
-  <p class="ssub">Join businesses that trust Winx to transform their customer experience.</p>
-  <div class="tg">
-    <div class="tm"><div class="tt">Since launching our Winx chatbot, our response time dropped to zero. Customers get answers instantly — even at 2am. Total game changer.</div><div class="ta"><div class="av">AK</div><div><div class="an">Amina K.</div><div class="ar">Owner, Nairobi Boutique</div></div></div></div>
-    <div class="tm"><div class="tt">The automation workflows Winx built saved our team 20+ hours a week. I had no idea how much time we were wasting on repetitive tasks.</div><div class="ta"><div class="av">JM</div><div><div class="an">James M.</div><div class="ar">CEO, Logistics Startup</div></div></div></div>
-    <div class="tm"><div class="tt">The chatbot knows our menu, prices, and delivery areas — like having an extra employee who never sleeps and never makes mistakes.</div><div class="ta"><div class="av">FO</div><div><div class="an">Fatuma O.</div><div class="ar">Manager, Restaurant Chain</div></div></div></div>
+  <div class="tm-hd">
+    <div class="lbl reveal">Clients</div>
+    <div class="dtitle reveal" style="margin-top:0.8rem;transition-delay:0.1s;">What Our<br>Clients Say</div>
+  </div>
+  <div class="tm-grid">
+    <div class="testi"><div class="tm-mark">"</div><div class="tm-quote">Since launching our Winx chatbot, our response time dropped to zero. Customers get answers instantly — even at 2am. Total game changer.</div><div class="tm-author"><div class="tm-av">AK</div><div><div class="tm-name">Amina K.</div><div class="tm-role">Owner, Nairobi Boutique</div></div></div></div>
+    <div class="testi"><div class="tm-mark">"</div><div class="tm-quote">The automation workflows Winx built saved our team 20+ hours a week. I had no idea how much time we were wasting on repetitive tasks.</div><div class="tm-author"><div class="tm-av">JM</div><div><div class="tm-name">James M.</div><div class="tm-role">CEO, Logistics Startup</div></div></div></div>
+    <div class="testi"><div class="tm-mark">"</div><div class="tm-quote">The chatbot knows our menu, prices, and delivery areas — like having an extra employee who never sleeps and never makes mistakes.</div><div class="tm-author"><div class="tm-av">FO</div><div><div class="tm-name">Fatuma O.</div><div class="tm-role">Manager, Restaurant Chain</div></div></div></div>
   </div>
 </section>
 
 <!-- FAQ -->
 <section id="faq">
-  <div class="lbl">FAQ</div>
-  <div class="stitle">Questions? Answers.</div>
-  <p class="ssub">Everything you need to know before getting started with Winx.</p>
-  <div class="fl">
-    <div class="fi"><div class="fq" onclick="tf(this)">What exactly does Winx build?<div class="ficon">+</div></div><div class="fa">We build custom AI chatbots and automation workflows tailored to your business — chatbots for your website or WhatsApp, automated lead follow-ups, content scheduling, and more.</div></div>
-    <div class="fi"><div class="fq" onclick="tf(this)">Do I need any technical knowledge?<div class="ficon">+</div></div><div class="fa">Not at all! We handle everything from setup to deployment. You just tell us about your business and we take care of the rest.</div></div>
-    <div class="fi"><div class="fq" onclick="tf(this)">How long does it take to go live?<div class="ficon">+</div></div><div class="fa">Most projects go live within 3–7 days. Simple chatbots can be ready in as little as 48 hours. Enterprise solutions may take 2–3 weeks.</div></div>
-    <div class="fi"><div class="fq" onclick="tf(this)">Is my business data safe?<div class="ficon">+</div></div><div class="fa">Absolutely. Your data is used only to train your chatbot and is never shared with third parties. We can sign an NDA before any work begins.</div></div>
-    <div class="fi"><div class="fq" onclick="tf(this)">What if I want changes after launch?<div class="ficon">+</div></div><div class="fa">All plans include ongoing support. We update your chatbot whenever your business information changes and optimize performance over time.</div></div>
+  <div class="faq-wrap">
+    <div class="faq-intro">
+      <div class="lbl reveal">FAQ</div>
+      <div class="dtitle reveal" style="transition-delay:0.1s;margin-top:0.8rem;">Questions?<br>Answered.</div>
+      <p class="reveal" style="transition-delay:0.2s;margin-top:1.2rem;color:var(--muted);font-size:1rem;line-height:1.8;font-weight:300;">Everything you need to know before getting started with Winx.</p>
+    </div>
+    <div class="faq-items reveal" style="transition-delay:0.1s;">
+      <div class="faq-i"><div class="faq-q" onclick="tf(this)">What exactly does Winx build?<div class="faq-ico">+</div></div><div class="faq-a">We build custom AI chatbots and automation workflows tailored to your business — chatbots for your website or WhatsApp, automated lead follow-ups, content scheduling, and more.</div></div>
+      <div class="faq-i"><div class="faq-q" onclick="tf(this)">Do I need any technical knowledge?<div class="faq-ico">+</div></div><div class="faq-a">Not at all! We handle everything from setup to deployment. You just tell us about your business and we take care of the rest.</div></div>
+      <div class="faq-i"><div class="faq-q" onclick="tf(this)">How long does it take to go live?<div class="faq-ico">+</div></div><div class="faq-a">Most projects go live within 3–7 days. Simple chatbots can be ready in as little as 48 hours. Enterprise solutions may take 2–3 weeks.</div></div>
+      <div class="faq-i"><div class="faq-q" onclick="tf(this)">Is my business data safe?<div class="faq-ico">+</div></div><div class="faq-a">Absolutely. Your data is used only to train your chatbot and is never shared with third parties. We can sign an NDA before any work begins.</div></div>
+      <div class="faq-i"><div class="faq-q" onclick="tf(this)">What if I want changes after launch?<div class="faq-ico">+</div></div><div class="faq-a">All plans include ongoing support. We update your chatbot whenever your business information changes and optimize performance over time.</div></div>
+    </div>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <div class="cntg">
-    <div class="ci2">
-      <div class="lbl">Get In Touch</div>
-      <h2>Ready to put AI to work for your business?</h2>
-      <p>Tell us about your business and we'll build a solution tailored for you. No technical knowledge needed — we handle everything from start to finish.</p>
-      <div class="citems">
-        <div class="citem"><div class="cico">📧</div><div class="ctxt"><strong>Email</strong><span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c6f696968687538353e4c6b616d6560226f6361">[email&#160;protected]</a></span></div></div>
-        <div class="citem"><div class="cico">📱</div><div class="ctxt"><strong>Phone / WhatsApp</strong><span>+254 799 278 741</span></div></div>
-        <div class="citem"><div class="cico">📍</div><div class="ctxt"><strong>Location</strong><span>Nairobi, Kenya</span></div></div>
+  <div class="ct-grid">
+    <div class="ct-left">
+      <div class="lbl reveal">Get In Touch</div>
+      <div class="dtitle reveal" style="transition-delay:0.1s;color:white;margin-top:0.8rem;">Ready to Put AI to Work?</div>
+      <p class="reveal" style="transition-delay:0.2s;">Tell us about your business and we'll build a solution tailored for you. No technical knowledge needed.</p>
+      <a href="https://calendly.com/antiquevaultke/30min" target="_blank" class="book-cta reveal" style="transition-delay:0.3s;">📅 Book a Free Demo Call</a>
+      <div class="ct-info reveal" style="transition-delay:0.4s;">
+        <div class="ct-row"><div class="ct-ico">📧</div><div><div class="ct-label">Email</div><div class="ct-val">ceeddy492@gmail.com</div></div></div>
+        <div class="ct-row"><div class="ct-ico">📱</div><div><div class="ct-label">Phone / WhatsApp</div><div class="ct-val">+254 799 278 741</div></div></div>
+        <div class="ct-row"><div class="ct-ico">📍</div><div><div class="ct-label">Location</div><div class="ct-val">Nairobi, Kenya</div></div></div>
       </div>
     </div>
-    <form class="cf" action="https://formspree.io/f/mgolbzgj" method="POST" onsubmit="hs(event)">
-      <div class="fr">
-        <div class="fg"><label>Your Name</label><input type="text" name="name" placeholder="" required/></div>
-        <div class="fg"><label>Business Name</label><input type="text" name="business" placeholder="" required/></div>
+    <form class="ct-form reveal" style="transition-delay:0.2s;" action="https://formspree.io/f/mgolbzgj" method="POST" onsubmit="handleForm(event)">
+      <div class="ct-row2">
+        <div class="ct-fg"><label class="ct-lbl">Your Name</label><input class="ct-inp" type="text" name="name" placeholder="" required/></div>
+        <div class="ct-fg"><label class="ct-lbl">Business Name</label><input class="ct-inp" type="text" name="business" placeholder="" required/></div>
       </div>
-      <div class="fg"><label>Email Address</label><input type="email" name="email" placeholder="" required/></div>
-      <div class="fg"><label>Which plan interests you?</label>
-        <select name="plan"><option>Starter — KSh 4,999/mo</option><option selected>Growth — KSh 9,999/mo</option><option>Enterprise — Custom</option></select>
+      <div class="ct-fg"><label class="ct-lbl">Email Address</label><input class="ct-inp" type="email" name="email" placeholder="" required/></div>
+      <div class="ct-fg"><label class="ct-lbl">Which plan interests you?</label>
+        <select class="ct-sel" name="plan"><option>Starter — KSh 4,999/mo</option><option selected>Growth — KSh 9,999/mo</option><option>Enterprise — Custom</option></select>
       </div>
-      <div class="fg"><label>Tell us about your business</label><textarea name="message" placeholder="What does your business do? What problems do you want AI to solve?"></textarea></div>
-      <button type="submit" class="sbtn">Send Message →</button>
+      <div class="ct-fg"><label class="ct-lbl">Tell us about your business</label><textarea class="ct-ta" name="message" placeholder="What does your business do? What problems do you want AI to solve?"></textarea></div>
+      <button type="submit" class="ct-sub">Send Message →</button>
     </form>
   </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="fl2">Winx</div>
-  <div class="flinks">
-    <a href="#services">Services</a>
-    <a href="#pricing">Pricing</a>
-    <a href="#faq">FAQ</a>
-    <a href="#contact">Contact</a>
+  <div class="ft-logo">Winx</div>
+  <div class="ft-links">
+    <a href="#services">Services</a><a href="#pricing">Pricing</a>
+    <a href="#faq">FAQ</a><a href="#contact">Contact</a>
   </div>
   <p>© 2026 Winx· Nairobi, Kenya</p>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-// Scroll animations
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; }});
-}, {threshold:0.1});
-document.querySelectorAll('.step,.plan,.tm,.sc').forEach((el,i) => {
-  if(!el.classList.contains('sc')) { el.style.opacity='0'; el.style.transform='translateY(28px)'; }
-  el.style.transition=`opacity 0.5s ${i*0.07}s ease, transform 0.5s ${i*0.07}s ease, box-shadow 0.3s`;
-  obs.observe(el);
+<!-- CHAT WIDGET -->
+<div id="wo" onclick="closeWidget()"></div>
+<div id="ww">
+  <div id="wh">
+    <div class="wav"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+    <div class="whi"><div class="whn">WINX AI</div><div class="whs"><div class="whd"></div><div class="wht">Online · Replies instantly</div></div></div>
+    <button class="wcl" onclick="closeWidget()">✕</button>
+  </div>
+  <div id="wm"></div>
+  <div id="wqr"></div>
+  <div id="wia">
+    <textarea id="wi" placeholder="Type a message..." rows="1" onkeydown="wKey(event)" oninput="wRes(this)"></textarea>
+    <button id="wsb" onclick="wSend()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
+  </div>
+  <div class="wpow">Powered by <a href="https://ceeddy.github.io/winx" target="_blank">Winx AI</a></div>
+</div>
+<button id="wtr" onclick="toggleWidget()">
+  <div class="wtp"></div>
+  <svg id="wic" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+  <svg id="wix" viewBox="0 0 24 24" style="display:none"><path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
+</button>
+
+<script>
+// Scroll reveals
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('visible');}),{threshold:0.12});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>ro.observe(el));
+
+// Plan & testi animations
+const po=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting){x.target.style.opacity='1';x.target.style.transform='translateY(0)';}}),{threshold:0.1});
+document.querySelectorAll('.plan,.testi').forEach((el,i)=>{
+  el.style.transition=`opacity 0.6s ${i*0.1}s ease,transform 0.6s ${i*0.1}s ease,background 0.3s,box-shadow 0.3s,border-color 0.3s`;
+  po.observe(el);
 });
 
-// Mobile menu
-function toggleMenu(){
-  document.getElementById('mobmenu').classList.toggle('open');
-}
-function closeMenu(){
-  document.getElementById('mobmenu').classList.remove('open');
-}
+// Nav scroll
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>50));
 
-// Pricing toggle
+// Mobile menu
+function toggleMenu(){document.getElementById('mobmenu').classList.toggle('open');}
+function closeMenu(){document.getElementById('mobmenu').classList.remove('open');}
+
+// Pricing
 let yr=false;
 const pr={a1:['4,999','3,499'],a2:['9,999','6,999']};
 function tp(){
@@ -744,207 +953,92 @@ function tp(){
   document.getElementById('tog').classList.toggle('on',yr);
   document.getElementById('ml').classList.toggle('on',!yr);
   document.getElementById('yl').classList.toggle('on',yr);
-  Object.entries(pr).forEach(([id,v])=>{ const el=document.getElementById(id); if(el) el.textContent=yr?v[1]:v[0]; });
+  Object.entries(pr).forEach(([id,v])=>{const el=document.getElementById(id);if(el)el.textContent=yr?v[1]:v[0];});
 }
 
 // FAQ
 function tf(el){
-  const item=el.parentElement, open=item.classList.contains('open');
-  document.querySelectorAll('.fi').forEach(i=>i.classList.remove('open'));
-  if(!open) item.classList.add('open');
+  const item=el.parentElement,open=item.classList.contains('open');
+  document.querySelectorAll('.faq-i').forEach(i=>i.classList.remove('open'));
+  if(!open)item.classList.add('open');
 }
 
-// Form submit
-async function hs(e){
+// Contact form
+async function handleForm(e){
   e.preventDefault();
-  const b=e.target.querySelector('.sbtn');
-  const form=e.target;
-  b.textContent='Sending...'; b.disabled=true;
-  try {
-    const res=await fetch('https://formspree.io/f/mgolbzgj',{
-      method:'POST',
-      body:new FormData(form),
-      headers:{Accept:'application/json'}
-    });
-    if(res.ok){
-      b.textContent='✓ Message Sent!'; b.style.background='#16a34a';
-      form.reset();
-      setTimeout(()=>{ b.textContent='Send Message →'; b.style.background=''; b.disabled=false; },4000);
-    } else {
-      b.textContent='Failed — Try Again'; b.style.background='#dc2626';
-      setTimeout(()=>{ b.textContent='Send Message →'; b.style.background=''; b.disabled=false; },3000);
-    }
-  } catch(err){
-    b.textContent='Failed — Try Again'; b.style.background='#dc2626';
-    setTimeout(()=>{ b.textContent='Send Message →'; b.style.background=''; b.disabled=false; },3000);
-  }
+  const b=e.target.querySelector('.ct-sub');
+  b.textContent='Sending...';b.disabled=true;
+  try{
+    const res=await fetch('https://formspree.io/f/mgolbzgj',{method:'POST',body:new FormData(e.target),headers:{Accept:'application/json'}});
+    if(res.ok){b.textContent='✓ Message Sent!';b.style.background='#4ade80';b.style.color='#0f172a';e.target.reset();setTimeout(()=>{b.textContent='Send Message →';b.style.background='';b.style.color='';b.disabled=false;},4000);}
+    else{b.textContent='Failed — Try Again';b.style.background='#f87171';setTimeout(()=>{b.textContent='Send Message →';b.style.background='';b.disabled=false;},3000);}
+  }catch{b.textContent='Failed — Try Again';b.style.background='#f87171';setTimeout(()=>{b.textContent='Send Message →';b.style.background='';b.disabled=false;},3000);}
 }
-</script>
 
-<!-- ═══════════════════════════ WINX CHAT WIDGET ═══════════════════════════ -->
-<style>
-:root{--w-primary:#0a0a0a;--w-radius:20px;--w-font:'Barlow',sans-serif;--w-font-display:'Bebas Neue',sans-serif;}
-#w-overlay{position:fixed;inset:0;z-index:9998;background:rgba(0,0,0,0.25);backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity 0.3s ease;}
-#w-overlay.open{opacity:1;pointer-events:all;}
-#w-widget{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(0.92);width:400px;max-width:calc(100vw - 2rem);height:580px;max-height:calc(100vh - 2rem);background:#fff;border-radius:var(--w-radius);box-shadow:0 30px 80px rgba(0,0,0,0.25),0 0 0 1px rgba(0,0,0,0.06);display:flex;flex-direction:column;z-index:9999;overflow:hidden;opacity:0;pointer-events:none;transition:all 0.35s cubic-bezier(0.34,1.56,0.64,1);}
-#w-widget.open{opacity:1;pointer-events:all;transform:translate(-50%,-50%) scale(1);}
-#w-header{background:var(--w-primary);padding:1.2rem 1.4rem;display:flex;align-items:center;gap:0.9rem;flex-shrink:0;}
-.w-avatar{width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff 0%,#888 60%,#444 100%);border:2px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.w-avatar svg{width:20px;height:20px;fill:white;}
-.w-header-info{flex:1;}
-.w-name{font-family:var(--w-font-display);font-size:1.15rem;letter-spacing:2px;color:white;line-height:1;}
-.w-status{display:flex;align-items:center;gap:0.4rem;margin-top:0.25rem;}
-.w-dot{width:7px;height:7px;border-radius:50%;background:#4ade80;animation:wPulseDot 2s infinite;}
-@keyframes wPulseDot{0%,100%{box-shadow:0 0 0 0 rgba(74,222,128,0.4)}50%{box-shadow:0 0 0 4px rgba(74,222,128,0)}}
-.w-status-text{font-size:0.72rem;color:rgba(255,255,255,0.6);font-family:var(--w-font);font-weight:500;}
-.w-close{width:30px;height:30px;background:rgba(255,255,255,0.1);border-radius:50%;border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.2s;}
-.w-close:hover{background:rgba(255,255,255,0.2);}
-#w-messages{flex:1;overflow-y:auto;padding:1.2rem 1.2rem 0.5rem;display:flex;flex-direction:column;gap:0.9rem;scroll-behavior:smooth;}
-#w-messages::-webkit-scrollbar{width:4px;}
-#w-messages::-webkit-scrollbar-thumb{background:#e0e0e0;border-radius:2px;}
-.w-msg{display:flex;gap:0.6rem;align-items:flex-end;animation:wMsgIn 0.3s cubic-bezier(0.34,1.56,0.64,1) both;}
-@keyframes wMsgIn{from{opacity:0;transform:translateY(10px) scale(0.95)}to{opacity:1;transform:translateY(0) scale(1)}}
-.w-msg.user{flex-direction:row-reverse;}
-.w-msg-avatar{width:28px;height:28px;border-radius:50%;background:var(--w-primary);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;color:white;font-family:'Barlow Condensed',sans-serif;font-weight:700;}
-.w-msg.user .w-msg-avatar{background:#e8e8e8;color:#555;}
-.w-bubble{max-width:78%;padding:0.75rem 1rem;border-radius:14px;font-size:0.9rem;line-height:1.6;font-family:var(--w-font);word-wrap:break-word;}
-.w-msg.bot .w-bubble{background:#f5f4f1;color:#1a1a1a;border-radius:4px 14px 14px 14px;}
-.w-msg.user .w-bubble{background:var(--w-primary);color:white;border-radius:14px 4px 14px 14px;}
-.w-typing{display:flex;gap:4px;align-items:center;padding:0.85rem 1rem;}
-.w-typing span{width:7px;height:7px;border-radius:50%;background:#bbb;animation:wTyping 1.2s infinite;}
-.w-typing span:nth-child(2){animation-delay:0.2s;}.w-typing span:nth-child(3){animation-delay:0.4s;}
-@keyframes wTyping{0%,60%,100%{transform:translateY(0);background:#bbb}30%{transform:translateY(-6px);background:#888}}
-#w-quickreplies{padding:0.6rem 1.2rem;display:flex;gap:0.5rem;flex-wrap:wrap;flex-shrink:0;}
-.w-qr{background:transparent;border:1px solid rgba(0,0,0,0.15);color:#444;padding:0.4rem 0.9rem;border-radius:100px;font-size:0.8rem;font-family:var(--w-font);font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap;}
-.w-qr:hover{background:var(--w-primary);color:white;border-color:var(--w-primary);}
-#w-input-area{padding:0.9rem 1.2rem;border-top:1px solid rgba(0,0,0,0.07);display:flex;gap:0.6rem;align-items:center;flex-shrink:0;background:white;}
-#w-input{flex:1;border:1px solid rgba(0,0,0,0.12);border-radius:10px;padding:0.7rem 1rem;font-family:var(--w-font);font-size:0.9rem;outline:none;transition:border-color 0.2s;resize:none;line-height:1.4;color:#1a1a1a;background:#fafaf8;max-height:100px;}
-#w-input:focus{border-color:rgba(0,0,0,0.3);background:white;}
-#w-input::placeholder{color:#bbb;}
-#w-send{width:40px;height:40px;flex-shrink:0;background:var(--w-primary);border:none;border-radius:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.2s;}
-#w-send:hover{background:#2a2a2a;transform:scale(1.05);}
-#w-send svg{width:18px;height:18px;fill:white;}
-#w-send:disabled{background:#e0e0e0;cursor:not-allowed;transform:none;}
-#w-trigger{position:fixed;bottom:2rem;right:2rem;z-index:9997;width:58px;height:58px;background:var(--w-primary);border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,0.25);transition:all 0.3s cubic-bezier(0.34,1.56,0.64,1);animation:wTriggerPop 0.5s 0.3s cubic-bezier(0.34,1.56,0.64,1) both;}
-@keyframes wTriggerPop{from{opacity:0;transform:scale(0)}to{opacity:1;transform:scale(1)}}
-#w-trigger:hover{transform:scale(1.1);box-shadow:0 12px 40px rgba(0,0,0,0.3);}
-#w-trigger.open{transform:scale(0.9) rotate(90deg);}
-#w-trigger svg{width:26px;height:26px;fill:white;transition:all 0.3s;}
-.w-trigger-pulse{position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(10,10,10,0.2);animation:wTriggerRing 2.5s infinite;}
-@keyframes wTriggerRing{0%{transform:scale(1);opacity:0.5}100%{transform:scale(1.4);opacity:0}}
-.w-powered{text-align:center;padding:0.4rem;font-size:0.65rem;color:#ccc;font-family:var(--w-font);}
-.w-powered a{color:#bbb;text-decoration:none;}
-</style>
-
-<div id="w-overlay" onclick="closeWidget()"></div>
-<div id="w-widget">
-  <div id="w-header">
-    <div class="w-avatar"><svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
-    <div class="w-header-info">
-      <div class="w-name">WINX AI</div>
-      <div class="w-status"><div class="w-dot"></div><div class="w-status-text">Online · Replies instantly</div></div>
-    </div>
-    <button class="w-close" onclick="closeWidget()">✕</button>
-  </div>
-  <div id="w-messages"></div>
-  <div id="w-quickreplies"></div>
-  <div id="w-input-area">
-    <textarea id="w-input" placeholder="Type a message..." rows="1" onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
-    <button id="w-send" onclick="sendMessage()"><svg viewBox="0 0 24 24"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg></button>
-  </div>
-  <div class="w-powered">Powered by <a href="https://ceeddy.github.io/winx" target="_blank">Winx AI</a></div>
-</div>
-
-<button id="w-trigger" onclick="toggleWidget()">
-  <div class="w-trigger-pulse"></div>
-  <svg id="w-icon-chat" viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
-  <svg id="w-icon-close" viewBox="0 0 24 24" style="display:none"><path d="M18 6L6 18M6 6l12 12" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg>
-</button>
-
-<script>
-const WINX_CONFIG={
-  botName:"Winx AI",
-  welcomeMessage:"Hey there! 👋 I'm Winx, your AI assistant. I'm here to answer your questions and help you get started. What can I help you with today?",
-  quickReplies:["What services do you offer?","How much does it cost?","How do I get started?","Contact the team"],
-  systemPrompt:`You are Winx AI, a friendly assistant for Winx — an AI automation agency in Nairobi, Kenya. Help visitors understand what Winx does and guide them toward booking a consultation. About Winx: We build custom AI chatbots, workflow automation (n8n + Groq), WhatsApp & social integration, AI strategy consulting. Pricing: Starter KSh 4,999/mo, Growth KSh 9,999/mo, Enterprise custom. Contact: ceeddy492@gmail.com | +254 799 278 741. Be friendly, concise, max 3 sentences per reply. Always end with a question or next step.`,
-  apiModel:"claude-haiku-4-5-20251001"
+// Chat widget
+let wO=false,wT=false,wH=[],wQ=false;
+const wCfg={
+  welcome:"Hey there! 👋 I'm Winx AI. I'm here to answer your questions about our services. What can I help you with today?",
+  qr:["What services do you offer?","How much does it cost?","How do I get started?","Contact the team"],
+  sys:`You are Winx AI, a friendly assistant for Winx — an AI automation agency in Nairobi, Kenya. Help visitors understand Winx and guide them to book a consultation. Services: custom AI chatbots, workflow automation, WhatsApp/social integration, AI strategy. Pricing: Starter KSh 4,999/mo, Growth KSh 9,999/mo, Enterprise custom. Contact: ceeddy492@gmail.com | +254 799 278 741. Be warm, concise, max 3 sentences per reply. Always end with a question or clear next step.`
 };
-let wIsOpen=false,wIsTyping=false,wHistory=[],wQRShown=false;
-document.addEventListener('DOMContentLoaded',()=>{ setTimeout(()=>wShowWelcome(),800); });
-function wShowWelcome(){wAddMessage('bot',WINX_CONFIG.welcomeMessage);setTimeout(()=>wShowQR(),500);}
-function wShowQR(){
-  if(wQRShown)return; wQRShown=true;
-  const qr=document.getElementById('w-quickreplies'); qr.innerHTML='';
-  WINX_CONFIG.quickReplies.forEach(q=>{
-    const b=document.createElement('button'); b.className='w-qr'; b.textContent=q;
-    b.onclick=()=>{qr.innerHTML='';sendMessage(q);}; qr.appendChild(b);
-  });
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{wAdd('bot',wCfg.welcome);setTimeout(wQR,500);},800);});
+function wQR(){
+  if(wQ)return;wQ=true;
+  const el=document.getElementById('wqr');el.innerHTML='';
+  wCfg.qr.forEach(q=>{const b=document.createElement('button');b.className='wqb';b.textContent=q;b.onclick=()=>{el.innerHTML='';wSend(q);};el.appendChild(b);});
 }
-function toggleWidget(){wIsOpen?closeWidget():openWidget();}
+function toggleWidget(){wO?closeWidget():openWidget();}
 function openWidget(){
-  wIsOpen=true;
-  document.getElementById('w-widget').classList.add('open');
-  document.getElementById('w-overlay').classList.add('open');
-  document.getElementById('w-trigger').classList.add('open');
-  document.getElementById('w-icon-chat').style.display='none';
-  document.getElementById('w-icon-close').style.display='block';
-  setTimeout(()=>document.getElementById('w-input').focus(),400);
+  wO=true;
+  document.getElementById('ww').classList.add('open');
+  document.getElementById('wo').classList.add('open');
+  document.getElementById('wtr').classList.add('open');
+  document.getElementById('wic').style.display='none';
+  document.getElementById('wix').style.display='block';
+  setTimeout(()=>document.getElementById('wi').focus(),400);
 }
 function closeWidget(){
-  wIsOpen=false;
-  document.getElementById('w-widget').classList.remove('open');
-  document.getElementById('w-overlay').classList.remove('open');
-  document.getElementById('w-trigger').classList.remove('open');
-  document.getElementById('w-icon-chat').style.display='block';
-  document.getElementById('w-icon-close').style.display='none';
+  wO=false;
+  document.getElementById('ww').classList.remove('open');
+  document.getElementById('wo').classList.remove('open');
+  document.getElementById('wtr').classList.remove('open');
+  document.getElementById('wic').style.display='block';
+  document.getElementById('wix').style.display='none';
 }
-function wAddMessage(role,text){
-  const msgs=document.getElementById('w-messages');
-  const wrap=document.createElement('div'); wrap.className=`w-msg ${role}`;
-  const av=document.createElement('div'); av.className='w-msg-avatar'; av.textContent=role==='bot'?'AI':'You';
-  const bub=document.createElement('div'); bub.className='w-bubble'; bub.textContent=text;
-  wrap.appendChild(av); wrap.appendChild(bub); msgs.appendChild(wrap);
-  msgs.scrollTop=msgs.scrollHeight;
-  wHistory.push({role:role==='bot'?'assistant':'user',content:text});
+function wAdd(role,text){
+  const msgs=document.getElementById('wm');
+  const w=document.createElement('div');w.className=`wmsg ${role}`;
+  const a=document.createElement('div');a.className='wmav';a.textContent=role==='bot'?'AI':'You';
+  const b=document.createElement('div');b.className='wbub';b.textContent=text;
+  w.appendChild(a);w.appendChild(b);msgs.appendChild(w);msgs.scrollTop=msgs.scrollHeight;
+  wH.push({role:role==='bot'?'assistant':'user',content:text});
 }
-function wShowTyping(){
-  const msgs=document.getElementById('w-messages');
-  const wrap=document.createElement('div'); wrap.className='w-msg bot'; wrap.id='w-typing-ind';
-  const av=document.createElement('div'); av.className='w-msg-avatar'; av.textContent='AI';
-  const bub=document.createElement('div'); bub.className='w-bubble';
-  const dots=document.createElement('div'); dots.className='w-typing';
-  dots.innerHTML='<span></span><span></span><span></span>';
-  bub.appendChild(dots); wrap.appendChild(av); wrap.appendChild(bub); msgs.appendChild(wrap);
-  msgs.scrollTop=msgs.scrollHeight;
+function wShowT(){
+  const msgs=document.getElementById('wm');
+  const w=document.createElement('div');w.className='wmsg bot';w.id='wti';
+  const a=document.createElement('div');a.className='wmav';a.textContent='AI';
+  const b=document.createElement('div');b.className='wbub';
+  const d=document.createElement('div');d.className='wtyp';d.innerHTML='<span></span><span></span><span></span>';
+  b.appendChild(d);w.appendChild(a);w.appendChild(b);msgs.appendChild(w);msgs.scrollTop=msgs.scrollHeight;
 }
-function wRemoveTyping(){const el=document.getElementById('w-typing-ind');if(el)el.remove();}
-async function sendMessage(text){
-  const inp=document.getElementById('w-input');
+function wRmT(){const el=document.getElementById('wti');if(el)el.remove();}
+async function wSend(text){
+  const inp=document.getElementById('wi');
   const msg=text||inp.value.trim();
-  if(!msg||wIsTyping)return;
-  inp.value=''; autoResize(inp);
-  document.getElementById('w-quickreplies').innerHTML='';
-  wAddMessage('user',msg);
-  wIsTyping=true; document.getElementById('w-send').disabled=true; wShowTyping();
+  if(!msg||wT)return;
+  inp.value='';wRes(inp);
+  document.getElementById('wqr').innerHTML='';
+  wAdd('user',msg);wT=true;document.getElementById('wsb').disabled=true;wShowT();
   try{
-    const res=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:WINX_CONFIG.apiModel,max_tokens:1000,system:WINX_CONFIG.systemPrompt,messages:wHistory.slice(-10)})
-    });
-    const data=await res.json(); wRemoveTyping();
-    if(data.content&&data.content[0]){wAddMessage('bot',data.content[0].text);}
-    else{wAddMessage('bot',"Sorry, having trouble right now. WhatsApp us at +254 112 129 347!");}
-  }catch(err){
-    wRemoveTyping();
-    wAddMessage('bot',"Connection issue! Reach us directly on WhatsApp: +254 799 278 741 or ceeddy492@gmail.com");
-  }
-  wIsTyping=false; document.getElementById('w-send').disabled=false;
-  document.getElementById('w-input').focus();
+    const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1000,system:wCfg.sys,messages:wH.slice(-10)})});
+    const data=await res.json();wRmT();
+    wAdd('bot',data.content&&data.content[0]?data.content[0].text:"Having trouble. Reach us on WhatsApp: +254 799 278 741");
+  }catch{wRmT();wAdd('bot',"Connection issue! Contact us: +254 799 278 741 or ceeddy492@gmail.com");}
+  wT=false;document.getElementById('wsb').disabled=false;document.getElementById('wi').focus();
 }
-function handleKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}}
-function autoResize(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
+function wKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();wSend();}}
+function wRes(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,100)+'px';}
 </script>
-<!-- ═══════════════════════════ END WIDGET ═══════════════════════════ -->
-
 </body>
 </html>
